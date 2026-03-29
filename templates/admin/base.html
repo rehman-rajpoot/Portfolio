@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Panel - Portfolio{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #4F46E5;
+            --color-secondary: #6366F1;
+            --color-background: #F8FAFC;
+            --color-dark: #1F2937;
+            --color-border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-sidebar .logo {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .admin-sidebar .logo h4 {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .admin-sidebar .logo small {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .admin-sidebar nav a {
+            color: rgba(255, 255, 255, 0.85);
+            padding: 1rem 1.5rem;
+            border-left: 4px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-sidebar nav a:hover, .admin-sidebar nav a.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-left-color: white;
+            color: white;
+        }
+
+        .admin-sidebar nav a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .admin-container {
+            padding: 2rem;
+        }
+
+        .admin-main {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .admin-header h1 {
+            color: var(--color-dark);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .admin-header h1 i {
+            color: var(--color-primary);
+        }
+
+        .btn-primary {
+            background: var(--color-primary);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--color-secondary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-danger {
+            background: #EF4444;
+        }
+
+        .btn-danger:hover {
+            background: #DC2626;
+        }
+
+        .alert {
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-success {
+            background: #ECFDF5;
+            color: #065F46;
+        }
+
+        .alert-danger {
+            background: #FEF2F2;
+            color: #991B1B;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            background: var(--color-background);
+            color: var(--color-dark);
+            font-weight: 600;
+            border: none;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .table tbody tr {
+            border-bottom: 1px solid var(--color-border);
+            transition: background 0.2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: var(--color-background);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--color-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-check-input {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--color-border);
+            border-radius: 4px;
+        }
+
+        .form-check-input:checked {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+
+        .badge-primary {
+            background: rgba(79, 70, 229, 0.1);
+            color: var(--color-primary);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-dark);
+        }
+
+        .stat-card .stat-label {
+            color: #6B7280;
+            font-size: 0.9rem;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+        }
+
+        .user-info i {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                position: relative;
+                min-height: auto;
+            }
+
+            .admin-container {
+                padding: 1rem;
+            }
+
+            .admin-main {
+                padding: 1rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 admin-sidebar">
+                <div class="logo">
+                    <h4 style="font-size: 1.3rem;"><i class="fas fa-cog"></i> Admin Panel</h4>
+                    <small>Portfolio Manager</small>
+                </div>
+                <nav>
+                    <a href="{{ url_for('admin_home') }}" class="{% if request.endpoint == 'admin_home' %}active{% endif %}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                    <a href="{{ url_for('admin_projects') }}" class="{% if request.endpoint == 'admin_projects' or 'project' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-laptop-code"></i> Projects
+                    </a>
+                    <a href="{{ url_for('admin_experiences') }}" class="{% if request.endpoint == 'admin_experiences' or 'experience' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-briefcase"></i> Experiences
+                    </a>
+                    <a href="{{ url_for('admin_education') }}" class="{% if request.endpoint == 'admin_education' or 'education' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-graduation-cap"></i> Education
+                    </a>
+                    <a href="{{ url_for('admin_skills') }}" class="{% if request.endpoint == 'admin_skills' or 'skill' in request.endpoint %}active{% endif %}">
+                        <i class="fas fa-star"></i> Skills
+                    </a>
+                    <a href="{{ url_for('admin_messages') }}" class="{% if 'message' in request.endpoint %}active{% endif %}" style="position:relative;">
+                        <i class="fas fa-envelope"></i> Messages
+                        {% set unread = namespace(count=0) %}
+                        {%- if g_unread_messages and g_unread_messages > 0 %}
+                        <span style="background:#EF4444;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;margin-left:auto;">{{ g_unread_messages }}</span>
+                        {%- endif %}
+                    </a>
+                    <hr style="border-color: rgba(255,255,255,0.2); margin: 1rem 0;">
+                    <a href="{{ url_for('admin_settings') }}" class="{% if request.endpoint == 'admin_settings' %}active{% endif %}">
+                        <i class="fas fa-sliders-h"></i> Settings
+                    </a>
+                    <a href="{{ url_for('admin_backup') }}" class="{% if request.endpoint == 'admin_backup' %}active{% endif %}">
+                        <i class="fas fa-download"></i> Backup
+                    </a>
+                    <a href="{{ url_for('admin_logout') }}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10">
+                <div class="admin-container">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+                                    <i class="fas fa-{% if category == 'success' %}check-circle{% else %}exclamation-circle{% endif %}"></i>
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                    <!-- Page Content -->
+                    <div class="admin-main">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Confirm delete action
+        function confirmDelete(name) {
+            return confirm(`Are you sure you want to delete "${name}"? This action cannot be undone.`);
+        }
+    </script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

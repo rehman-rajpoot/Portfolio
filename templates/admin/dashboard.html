@@ -1,0 +1,260 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Admin Dashboard - Portfolio{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">Welcome back! Here's your portfolio overview.</p>
+        </div>
+        <div class="user-info" style="color: #6B7280; font-size: 0.95rem;">
+            <i class="fas fa-user-circle"></i>
+            {{ current_user.username }}
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-laptop-code"></i>
+            <div class="stat-value">{{ stats.total_projects }}</div>
+            <div class="stat-label">Projects</div>
+            <a href="{{ url_for('admin_projects') }}" style="text-decoration: none; color: var(--color-primary); font-size: 0.85rem; margin-top: 0.5rem;">
+                <i class="fas fa-arrow-right"></i> Manage
+            </a>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-briefcase"></i>
+            <div class="stat-value">{{ stats.total_experiences }}</div>
+            <div class="stat-label">Experiences</div>
+            <a href="{{ url_for('admin_experiences') }}" style="text-decoration: none; color: var(--color-primary); font-size: 0.85rem; margin-top: 0.5rem;">
+                <i class="fas fa-arrow-right"></i> Manage
+            </a>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-graduation-cap"></i>
+            <div class="stat-value">{{ stats.total_education }}</div>
+            <div class="stat-label">Education</div>
+            <a href="{{ url_for('admin_education') }}" style="text-decoration: none; color: var(--color-primary); font-size: 0.85rem; margin-top: 0.5rem;">
+                <i class="fas fa-arrow-right"></i> Manage
+            </a>
+        </div>
+
+        <div class="stat-card">
+            <i class="fas fa-star"></i>
+            <div class="stat-value">{{ stats.total_skills }}</div>
+            <div class="stat-label">Skills</div>
+            <a href="{{ url_for('admin_skills') }}" style="text-decoration: none; color: var(--color-primary); font-size: 0.85rem; margin-top: 0.5rem;">
+                <i class="fas fa-arrow-right"></i> Manage
+            </a>
+        </div>
+
+        <div class="stat-card" style="{% if stats.unread_messages > 0 %}border-color: #EF4444;{% endif %}">
+            <i class="fas fa-envelope" style="{% if stats.unread_messages > 0 %}color:#EF4444;{% endif %}"></i>
+            <div class="stat-value">{{ stats.total_messages }}</div>
+            <div class="stat-label">Messages
+                {% if stats.unread_messages > 0 %}
+                <span style="background:#EF4444;color:#fff;border-radius:999px;padding:0.1rem 0.5rem;font-size:0.75rem;margin-left:0.25rem;">{{ stats.unread_messages }} new</span>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('admin_messages') }}" style="text-decoration: none; color: var(--color-primary); font-size: 0.85rem; margin-top: 0.5rem;">
+                <i class="fas fa-arrow-right"></i> View
+            </a>
+        </div>
+
+    <!-- Recent Projects -->
+    <div style="margin-top: 2rem;">
+        <h3 style="color: var(--color-dark); font-weight: 700; margin-bottom: 1.5rem;">
+            <i class="fas fa-laptop-code" style="color: var(--color-primary); margin-right: 0.5rem;"></i>
+            Recent Projects
+        </h3>
+        
+        {% if projects %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Skills</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for project in projects[:5] %}
+                            <tr>
+                                <td>
+                                    <strong>{{ project.title }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge badge-primary">{{ project.category }}</span>
+                                </td>
+                                <td>
+                                    {% if project.skills %}
+                                        <small>{{ project.skills|length }} skills</small>
+                                    {% else %}
+                                        <small class="text-muted">-</small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{{ url_for('admin_edit_project', project_id=project.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('admin_delete_project', project_id=project.id) }}" style="display: inline;" onsubmit="return confirmDelete('{{ project.title }}');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div style="background: #F9FAFB; padding: 2rem; border-radius: 8px; text-align: center; color: #6B7280;">
+                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                No projects yet. <a href="{{ url_for('admin_add_project') }}" style="color: var(--color-primary);">Create one</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Experiences -->
+    <div style="margin-top: 2rem;">
+        <h3 style="color: var(--color-dark); font-weight: 700; margin-bottom: 1.5rem;">
+            <i class="fas fa-briefcase" style="color: var(--color-primary); margin-right: 0.5rem;"></i>
+            Recent Experiences
+        </h3>
+        
+        {% if experiences %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>Company</th>
+                            <th>Period</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exp in experiences[:5] %}
+                            <tr>
+                                <td>
+                                    <strong>{{ exp.title }}</strong>
+                                </td>
+                                <td>{{ exp.company }}</td>
+                                <td>{{ exp.period }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin_edit_experience', experience_id=exp.id) }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form method="POST" action="{{ url_for('admin_delete_experience', experience_id=exp.id) }}" style="display: inline;" onsubmit="return confirmDelete('{{ exp.title }}');">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div style="background: #F9FAFB; padding: 2rem; border-radius: 8px; text-align: center; color: #6B7280;">
+                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                No experiences yet. <a href="{{ url_for('admin_add_experience') }}" style="color: var(--color-primary);">Create one</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Recent Messages -->
+    <div style="margin-top: 2rem;">
+        <h3 style="color: var(--color-dark); font-weight: 700; margin-bottom: 1.5rem;">
+            <i class="fas fa-envelope" style="color: var(--color-primary); margin-right: 0.5rem;"></i>
+            Recent Messages
+            {% if stats.unread_messages > 0 %}
+            <span style="background:#EF4444;color:#fff;border-radius:999px;padding:0.2rem 0.65rem;font-size:0.8rem;vertical-align:middle;">{{ stats.unread_messages }} unread</span>
+            {% endif %}
+        </h3>
+        {% if recent_messages %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>From</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for msg in recent_messages %}
+                        <tr style="{% if not msg.is_read %}background:#EFF6FF; font-weight:600;{% endif %}">
+                            <td>
+                                {% if not msg.is_read %}
+                                <span style="width:9px;height:9px;background:#4F46E5;border-radius:50%;display:inline-block;"></span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <strong>{{ msg.name }}</strong><br>
+                                <small style="color:#6B7280;">{{ msg.email }}</small>
+                            </td>
+                            <td>{{ msg.subject | truncate(50) }}</td>
+                            <td style="color:#6B7280;font-size:0.88rem;white-space:nowrap;">{{ msg.created_at.strftime('%b %d, %H:%M') }}</td>
+                            <td>
+                                <a href="{{ url_for('admin_view_message', message_id=msg.id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject }}" class="btn btn-sm btn-outline-success" title="Reply">
+                                    <i class="fas fa-reply"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div style="text-align:right; margin-top:0.75rem;">
+                <a href="{{ url_for('admin_messages') }}" style="color:var(--color-primary); font-size:0.9rem;">
+                    View all messages <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        {% else %}
+            <div style="background: #F9FAFB; padding: 2rem; border-radius: 8px; text-align: center; color: #6B7280;">
+                <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                No messages yet.
+            </div>
+        {% endif %}
+    </div>
+    <div style="margin-top: 2rem; padding: 1.5rem; background: #EFF6FF; border-left: 4px solid var(--color-primary); border-radius: 8px;">
+        <h5 style="color: var(--color-dark); font-weight: 700; margin-bottom: 1rem;">
+            <i class="fas fa-lightning-bolt" style="color: var(--color-primary); margin-right: 0.5rem;"></i>
+            Quick Actions
+        </h5>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+            <a href="{{ url_for('admin_add_project') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus"></i> New Project
+            </a>
+            <a href="{{ url_for('admin_add_experience') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus"></i> New Experience
+            </a>
+            <a href="{{ url_for('admin_add_education') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus"></i> New Education
+            </a>
+            <a href="{{ url_for('admin_add_skill') }}" class="btn btn-outline-primary">
+                <i class="fas fa-plus"></i> New Skill
+            </a>
+            <a href="{{ url_for('admin_backup') }}" class="btn btn-outline-success">
+                <i class="fas fa-download"></i> Backup Data
+            </a>
+            <a href="{{ url_for('admin_settings') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{% if project %}Edit{% else %}Add{% endif %} Project - Admin{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1>
+                <i class="fas fa-laptop-code"></i>
+                {% if project %}Edit Project{% else %}Create New Project{% endif %}
+            </h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">
+                {% if project %}Update project details and settings{% else %}Add a new project to your portfolio{% endif %}
+            </p>
+        </div>
+        <a href="{{ url_for('admin_projects') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-heading"></i> Project Title *</label>
+                    <input type="text" class="form-control" name="title" value="{{ project.title if project else '' }}" required>
+                    <small class="text-muted">The name of your project</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-align-left"></i> Description *</label>
+                    <textarea class="form-control" name="description" required>{{ project.description if project else '' }}</textarea>
+                    <small class="text-muted">Brief description of what the project does</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-bars"></i> Detailed Information</label>
+                    <textarea class="form-control" name="details">{{ project.details if project else '' }}</textarea>
+                    <small class="text-muted">Additional details, technical specifications, etc.</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-image"></i> Project Image</label>
+                    <input type="file" class="form-control" name="image" accept="image/*">
+                    <small class="text-muted">Upload a project image (JPG, PNG, etc.)</small>
+                    {% if project and project.image_filename %}
+                        <div style="margin-top: 0.5rem; color: #065F46; background: #ECFDF5; padding: 0.5rem; border-radius: 4px;">
+                            <i class="fas fa-check-circle"></i> Image already uploaded
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-tag"></i> Category *</label>
+                    <select class="form-select" name="category" required>
+                        <option value="">Select a category</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat }}" {% if project and project.category == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-star"></i> Skills Associated</label>
+                    <div style="max-height: 300px; overflow-y: auto; border: 2px solid #E5E7EB; border-radius: 8px; padding: 1rem;">
+                        {% for category in skills %}
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="color: var(--color-dark); font-weight: 600; margin-bottom: 0.75rem;">
+                                    <i class="fas fa-{{ category.icon }}"></i> {{ category.name }}
+                                </h6>
+                                {% for skill in category.skills %}
+                                    <div class="form-check" style="margin-bottom: 0.5rem;">
+                                        <input class="form-check-input" type="checkbox" name="skills" value="{{ skill.id }}" id="skill_{{ skill.id }}" {% if project and skill in project.skills %}checked{% endif %}>
+                                        <label class="form-check-label" for="skill_{{ skill.id }}" style="margin-bottom: 0;">
+                                            {{ skill.name }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <small class="text-muted">Select skills relevant to this project</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #E5E7EB;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> {% if project %}Update Project{% else %}Create Project{% endif %}
+            </button>
+            <a href="{{ url_for('admin_projects') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

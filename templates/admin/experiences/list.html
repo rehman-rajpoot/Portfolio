@@ -1,0 +1,78 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Manage Experiences - Admin{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1><i class="fas fa-briefcase"></i> Manage Experiences</h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">Manage your work experience and internship history</p>
+        </div>
+        <a href="{{ url_for('admin_add_experience') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Add New Experience
+        </a>
+    </div>
+
+    {% if experiences %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Company</th>
+                        <th>Period</th>
+                        <th>Description</th>
+                        <th>Responsibilities</th>
+                        <th>Skills</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for exp in experiences %}
+                        <tr>
+                            <td>
+                                <strong>{{ exp.title }}</strong>
+                            </td>
+                            <td>{{ exp.company }}</td>
+                            <td>
+                                <span class="badge" style="background: rgba(79, 70, 229, 0.1); color: #4F46E5;">{{ exp.period }}</span>
+                            </td>
+                            <td>
+                                <small>{{ exp.description[:40] }}{% if exp.description|length > 40 %}...{% endif %}</small>
+                            </td>
+                            <td>
+                                <small>{{ exp.get_responsibilities()|length }} items</small>
+                            </td>
+                            <td>
+                                {% if exp.skills %}
+                                    <small>{{ exp.skills|length }} skills</small>
+                                {% else %}
+                                    <small class="text-muted">-</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('admin_edit_experience', experience_id=exp.id) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <form method="POST" action="{{ url_for('admin_delete_experience', experience_id=exp.id) }}" style="display: inline;" onsubmit="return confirmDelete('{{ exp.title }}');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div style="background: #F9FAFB; padding: 3rem; border-radius: 8px; text-align: center; color: #6B7280;">
+            <i class="fas fa-inbox" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+            <h5 style="color: var(--color-dark); margin-bottom: 0.5rem;">No experiences yet</h5>
+            <p>Add your work experience and career history</p>
+            <a href="{{ url_for('admin_add_experience') }}" class="btn btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-plus"></i> Create First Experience
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{% if skill %}Edit{% else %}Add{% endif %} Skill - Admin{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1>
+                <i class="fas fa-star"></i>
+                {% if skill %}Edit Skill{% else %}Add New Skill{% endif %}
+            </h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">
+                {% if skill %}Update skill details{% else %}Add a new skill to a category{% endif %}
+            </p>
+        </div>
+        <a href="{{ url_for('admin_skills') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div style="max-width: 600px;">
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-heading"></i> Skill Name *</label>
+                <input type="text" class="form-control" name="name" value="{{ skill.name if skill else '' }}" placeholder="e.g., Python, Arduino, Team Leadership" required>
+                <small class="text-muted">Name of the skill or competency</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-folder"></i> Category *</label>
+                <select class="form-select" name="category_id" required>
+                    <option value="">Select a category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if skill and skill.category_id == category.id %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <small class="text-muted">Which category does this skill belong to?</small>
+            </div>
+
+            <!-- Form Actions -->
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> {% if skill %}Update Skill{% else %}Add Skill{% endif %}
+                </button>
+                <a href="{{ url_for('admin_skills') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

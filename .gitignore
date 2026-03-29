@@ -1,0 +1,36 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Flask instance folder & databases (generated at runtime)
+instance/
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment secrets - NEVER commit these
+.env
+.env.local
+
+# IDE / editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# AI agent files
+.github/
+.antigravity/
+
+# Docs / planning files (not needed for the web app)
+plans/
+STRUCTURE.txt

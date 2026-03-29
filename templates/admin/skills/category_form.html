@@ -1,0 +1,77 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{% if category %}Edit{% else %}Add{% endif %} Category - Admin{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1>
+                <i class="fas fa-folder"></i>
+                {% if category %}Edit Category{% else %}Add Skill Category{% endif %}
+            </h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">
+                {% if category %}Update category details{% else %}Create a new skill category{% endif %}
+            </p>
+        </div>
+        <a href="{{ url_for('admin_skills') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div style="max-width: 600px;">
+        <form method="POST">
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-heading"></i> Category Name *</label>
+                <input type="text" class="form-control" name="name" value="{{ category.name if category else '' }}" required>
+                <small class="text-muted">e.g., Software & Programming, Hardware & Practical</small>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label"><i class="fas fa-icon"></i> Font Awesome Icon *</label>
+                <input type="text" class="form-control" name="icon" value="{{ category.icon if category else '' }}" placeholder="e.g., fa-code, fa-microchip, fa-tools" required>
+                <small class="text-muted">
+                    FontAwesome icon class (e.g., fa-code, fa-microchip, fa-tools, fa-users). 
+                    <a href="https://fontawesome.com/icons" target="_blank" style="color: var(--color-primary);">Browse icons</a>
+                </small>
+            </div>
+
+            <div style="background: #F9FAFB; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;">
+                <p style="margin-bottom: 0.5rem; color: var(--color-dark); font-weight: 600;">Preview</p>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem;">
+                        <i id="icon-preview" class="fas fa-{{ category.icon if category else 'star' }}"></i>
+                    </div>
+                    <div>
+                        <h5 style="margin: 0; color: var(--color-dark); font-weight: 700;" id="name-preview">
+                            {% if category %}{{ category.name }}{% else %}Category Name{% endif %}
+                        </h5>
+                        <small style="color: #6B7280;">Category preview</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div style="display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> {% if category %}Update Category{% else %}Create Category{% endif %}
+                </button>
+                <a href="{{ url_for('admin_skills') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-times"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Update preview in real-time
+        document.querySelector('input[name="name"]').addEventListener('input', function() {
+            document.getElementById('name-preview').textContent = this.value || 'Category Name';
+        });
+
+        document.querySelector('input[name="icon"]').addEventListener('input', function() {
+            const preview = document.getElementById('icon-preview');
+            const newClass = 'fas ' + (this.value || 'fa-star');
+            preview.className = newClass;
+        });
+    </script>
+{% endblock %}

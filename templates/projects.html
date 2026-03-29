@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects.css') }}">
+{% endblock %}
+
+{% block content %}
+
+<div class="projects-header">
+    <h1>My Projects</h1>
+    <p>Explore a selection of projects I've worked on, showcasing my expertise in hardware development, 
+       web solutions, and innovative 3D modeling.</p>
+</div>
+
+<div class="filter-container">
+    <button class="filter-btn active" data-filter="all">All Projects</button>
+    <button class="filter-btn" data-filter="Hardware">Hardware</button>
+    <button class="filter-btn" data-filter="Web">Web Development</button>
+    <button class="filter-btn" data-filter="3D Model">3D Model</button>
+</div>
+
+<div class="projects-grid">
+    {% for project in projects %}
+    <div class="project-card" data-category="{{ project.category }}">
+        <div class="project-icon">
+            <i class="fas fa-project-diagram"></i>
+        </div>
+        <div class="project-category">{{ project.category }}</div>
+        <h3>{{ project.title }}</h3>
+        <p>{{ project.description }}</p>
+        
+        <div class="tech-stack">
+            {% for tech in project.tech %}
+            <span class="tech-badge">{{ tech }}</span>
+            {% endfor %}
+        </div>
+        
+        <a href="{{ project.link }}" class="project-link">
+            View Project <i class="fas fa-arrow-right"></i>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filter = this.getAttribute('data-filter');
+            
+            // Update active button
+            filterBtns.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+
+            // Filter cards
+            projectCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                    setTimeout(() => card.classList.add('show'), 10);
+                } else {
+                    if (card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                        setTimeout(() => card.classList.add('show'), 10);
+                    } else {
+                        card.classList.remove('show');
+                        setTimeout(() => card.style.display = 'none', 300);
+                    }
+                }
+            });
+        });
+    });
+});
+</script>
+{% endblock %}

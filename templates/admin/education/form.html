@@ -1,0 +1,102 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}{% if education %}Edit{% else %}Add{% endif %} Education - Admin{% endblock %}
+
+{% block content %}
+    <div class="admin-header">
+        <div>
+            <h1>
+                <i class="fas fa-graduation-cap"></i>
+                {% if education %}Edit Education{% else %}Add Education{% endif %}
+            </h1>
+            <p class="text-muted" style="margin-top: 0.5rem;">
+                {% if education %}Update your educational background{% else %}Add a qualification or degree{% endif %}
+            </p>
+        </div>
+        <a href="{{ url_for('admin_education') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <form method="POST">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-graduation-cap"></i> Education Level *</label>
+                    <input type="text" class="form-control" name="level" value="{{ education.level if education else '' }}" placeholder="e.g., BS in Computing, Intermediate, Matriculation" required>
+                    <small class="text-muted">Degree or qualification level</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-book"></i> Field of Study *</label>
+                    <input type="text" class="form-control" name="field" value="{{ education.field if education else '' }}" placeholder="e.g., Electrical Engineering, Computer Science" required>
+                    <small class="text-muted">Your major or field of study</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-building"></i> School/University *</label>
+                            <input type="text" class="form-control" name="school" value="{{ education.school if education else '' }}" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" class="form-control" name="location" value="{{ education.location if education else '' }}" placeholder="City, Country">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-calendar"></i> Period *</label>
+                            <input type="text" class="form-control" name="period" value="{{ education.period if education else '' }}" placeholder="e.g., 2021 - 2025" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-trophy"></i> Grade/Score</label>
+                            <input type="text" class="form-control" name="grade" value="{{ education.grade if education else '' }}" placeholder="e.g., 3.8 GPA, 85%, First Class">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label"><i class="fas fa-clipboard-list"></i> Key Subjects/Courses</label>
+                    <textarea class="form-control" name="subjects">{% if education %}{% for subject in education.get_details().get('subjects', []) %}{{ subject }}
+{% endfor %}{% endif %}</textarea>
+                    <small class="text-muted">List key subjects or courses, one per line</small>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-hashtag"></i> Credits/Total</label>
+                            <input type="text" class="form-control" name="credits" value="{{ education.get_details().get('credits', '') if education else '' }}" placeholder="e.g., 120 credits">
+                            <small class="text-muted">Total credits or course load</small>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label"><i class="fas fa-layer-group"></i> EQF Level</label>
+                            <input type="text" class="form-control" name="eqf_level" value="{{ education.get_details().get('eqf_level', '') if education else '' }}" placeholder="e.g., EQF Level 6">
+                            <small class="text-muted">European Qualification Framework level</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #E5E7EB;">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> {% if education %}Update Education{% else %}Add Education{% endif %}
+            </button>
+            <a href="{{ url_for('admin_education') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </a>
+        </div>
+    </form>
+{% endblock %}

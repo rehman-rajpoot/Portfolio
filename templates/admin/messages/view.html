@@ -1,0 +1,86 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Message from {{ msg.name }} - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <div>
+        <h1><i class="fas fa-envelope-open"></i> Message Details</h1>
+        <p class="text-muted" style="margin-top:0.5rem;">
+            <a href="{{ url_for('admin_messages') }}" style="color:var(--color-primary); text-decoration:none;">
+                <i class="fas fa-arrow-left"></i> Back to Messages
+            </a>
+        </p>
+    </div>
+    <div style="display:flex; gap:0.75rem;">
+        <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject }}" class="btn btn-primary">
+            <i class="fas fa-reply"></i> Reply by Email
+        </a>
+        <a href="https://wa.me/923187004439?text={{ ('Reply to ' ~ msg.name ~ ': ' ~ msg.subject) | urlencode }}"
+           target="_blank" class="btn btn-outline-success">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+        </a>
+        <form method="POST" action="{{ url_for('admin_delete_message', message_id=msg.id) }}"
+              onsubmit="return confirm('Delete this message?');" style="display:inline;">
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="fas fa-trash"></i> Delete
+            </button>
+        </form>
+    </div>
+</div>
+
+<div style="max-width:800px; margin:0 auto;">
+    <!-- Sender info card -->
+    <div style="background:#fff; border:1px solid #E5E7EB; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">From</label>
+                <p style="margin:0.25rem 0 0; font-size:1.1rem; font-weight:700; color:#111827;">{{ msg.name }}</p>
+            </div>
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Email</label>
+                <p style="margin:0.25rem 0 0;">
+                    <a href="mailto:{{ msg.email }}" style="color:var(--color-primary);">{{ msg.email }}</a>
+                </p>
+            </div>
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Subject</label>
+                <p style="margin:0.25rem 0 0; font-weight:600; color:#374151;">{{ msg.subject }}</p>
+            </div>
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Received</label>
+                <p style="margin:0.25rem 0 0; color:#6B7280;">{{ msg.created_at.strftime('%B %d, %Y at %H:%M') }}</p>
+            </div>
+            {% if msg.ip_address %}
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">IP Address</label>
+                <p style="margin:0.25rem 0 0; color:#6B7280; font-size:0.9rem;">{{ msg.ip_address }}</p>
+            </div>
+            {% endif %}
+            <div>
+                <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600;">Status</label>
+                <p style="margin:0.25rem 0 0;">
+                    <span style="background:#D1FAE5; color:#065F46; padding:0.2rem 0.6rem; border-radius:999px; font-size:0.85rem; font-weight:600;">
+                        <i class="fas fa-check-circle"></i> Read
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message body -->
+    <div style="background:#fff; border:1px solid #E5E7EB; border-radius:12px; padding:1.5rem;">
+        <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:600; display:block; margin-bottom:1rem;">Message</label>
+        <div style="white-space:pre-wrap; line-height:1.8; color:#374151; font-size:1rem;">{{ msg.message }}</div>
+    </div>
+
+    <!-- Quick reply -->
+    <div style="margin-top:1.5rem; padding:1.25rem; background:#EFF6FF; border-left:4px solid var(--color-primary); border-radius:8px;">
+        <p style="margin:0; color:#1E40AF; font-size:0.95rem;">
+            <i class="fas fa-info-circle"></i>
+            <strong>Reply tip:</strong> Click <em>Reply by Email</em> above to open your email client with a pre-filled reply to <strong>{{ msg.name }}</strong>.
+            Your reply will go directly to <code>{{ msg.email }}</code>.
+        </p>
+    </div>
+</div>
+{% endblock %}
