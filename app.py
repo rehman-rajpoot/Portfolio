@@ -22,14 +22,14 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file upload
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'rehman.designworks@gmail.com')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'your-email@gmail.com')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # Set via env var MAIL_PASSWORD
-app.config['MAIL_DEFAULT_SENDER'] = ('Portfolio Contact Form', os.environ.get('MAIL_USERNAME', 'rehman.designworks@gmail.com'))
+app.config['MAIL_DEFAULT_SENDER'] = ('Portfolio Contact Form', os.environ.get('MAIL_USERNAME', 'your-email@gmail.com'))
 
 # ---- Your contact details ----
 # Fetched securely from your deployment environment
-OWNER_EMAIL = os.environ.get('OWNER_EMAIL', 'rehman.designworks@gmail.com')
-OWNER_WHATSAPP = os.environ.get('OWNER_WHATSAPP', '+923271122084')
+OWNER_EMAIL = os.environ.get('OWNER_EMAIL', 'your-email@gmail.com')
+OWNER_WHATSAPP = os.environ.get('OWNER_WHATSAPP', '+920000000000')
 
 # ---- Meta WhatsApp API Configuration ----
 WHATSAPP_TOKEN = os.environ.get('WHATSAPP_TOKEN')
