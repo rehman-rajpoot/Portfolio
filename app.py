@@ -22,13 +22,18 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file upload
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'rehman56012@gmail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', '')  # Set via env var MAIL_PASSWORD
-app.config['MAIL_DEFAULT_SENDER'] = ('Portfolio Contact Form', os.environ.get('MAIL_USERNAME', 'rehman56012@gmail.com'))
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'rehman.designworks@gmail.com')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # Set via env var MAIL_PASSWORD
+app.config['MAIL_DEFAULT_SENDER'] = ('Portfolio Contact Form', os.environ.get('MAIL_USERNAME', 'rehman.designworks@gmail.com'))
 
 # ---- Your contact details ----
-OWNER_EMAIL = 'rehman56012@gmail.com'
-OWNER_WHATSAPP = '+923187004439'
+# Fetched securely from your deployment environment
+OWNER_EMAIL = os.environ.get('OWNER_EMAIL', 'rehman.designworks@gmail.com')
+OWNER_WHATSAPP = os.environ.get('OWNER_WHATSAPP', '+923271122084')
+
+# ---- Meta WhatsApp API Configuration ----
+WHATSAPP_TOKEN = os.environ.get('WHATSAPP_TOKEN')
+WHATSAPP_PHONE_ID = os.environ.get('WHATSAPP_PHONE_ID')
 
 mail = Mail(app)
 
@@ -66,21 +71,42 @@ Reply directly to this email to respond to {name}.
         return False
 
 def send_whatsapp_notification(name, email, subject):
-    """Send WhatsApp notification via CallMeBot API (free).
+    """Send WhatsApp notification via Meta WhatsApp Cloud API."""
+    import requests
     
-    Setup: Send "I allow callmebot to send me messages" to +34 644 60 21 27 on WhatsApp
-    then set the CALLMEBOT_API_KEY environment variable with the key they send back.
-    Without the API key, this will just log the message.
-    """
-    api_key = os.environ.get('CALLMEBOT_API_KEY', '')
-    if not api_key:
-        app.logger.info(f'[WhatsApp] New message from {name} ({email}) — Subject: {subject}')
+    # Ensure tokens are provided before proceeding
+    if not WHATSAPP_TOKEN or not WHATSAPP_PHONE_ID:
+        app.logger.warning("WhatsApp token or phone ID not found in environment variables. Notification skipped.")
         return False
+        
+    # Format the destination phone number (remove any + or spaces)
+    recipient_phone = OWNER_WHATSAPP.replace('+', '').replace(' ', '')
+    
     try:
-        wa_message = f'📩 New Portfolio Message!\nFrom: {name}\nEmail: {email}\nSubject: {subject}\n\nCheck your admin panel: http://127.0.0.1:5000/admin/messages'
-        url = f'https://api.callmebot.com/whatsapp.php?phone={OWNER_WHATSAPP}&text={http_requests.utils.quote(wa_message)}&apikey={api_key}'
-        r = http_requests.get(url, timeout=10)
-        return r.status_code == 200
+        wa_message = f'📩 *New Portfolio Message!*\n*From:* {name}\n*Email:* {email}\n*Subject:* {subject}\n\nCheck your admin panel: http://127.0.0.1:5000/admin/messages'
+        
+        url = f'https://graph.facebook.com/v18.0/{WHATSAPP_PHONE_ID}/messages'
+        headers = {
+            'Authorization': f'Bearer {WHATSAPP_TOKEN}',
+            'Content-Type': 'application/json'
+        }
+        data = {
+            "messaging_product": "whatsapp",
+            "to": recipient_phone,
+            "type": "text",
+            "text": {
+                "body": wa_message
+            }
+        }
+        
+        r = requests.post(url, headers=headers, json=data, timeout=10)
+        
+        if r.status_code in [200, 201]:
+            return True
+        else:
+            app.logger.error(f'WhatsApp API error: {r.status_code} - {r.text}')
+            return False
+            
     except Exception as e:
         app.logger.error(f'WhatsApp send failed: {e}')
         return False
@@ -216,6 +242,30 @@ def contact():
 def serve_image(filename):
     images_dir = os.path.join(os.path.dirname(__file__), 'images')
     return send_from_directory(images_dir, filename)
+
+@app.route('/robots.txt')
+@app.route('/sitemap.xml')
+def static_from_root():
+    return send_from_directory(os.path.join(os.path.dirname(__file__), 'static'), request.path[1:])
+
+@app.after_request
+def apply_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    
+    # Relaxed CSP for Bootstrap, FontAwesome, Google Fonts, and inline scripts/styles
+    csp = (
+        "default-src 'self'; "
+        "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; "
+        "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://fonts.googleapis.com; "
+        "font-src 'self' data: https://cdnjs.cloudflare.com https://fonts.gstatic.com; "
+        "img-src 'self' data: https:;"
+    )
+    response.headers['Content-Security-Policy'] = csp
+    return response
 
 # ======================== ADMIN ROUTES ========================
 
