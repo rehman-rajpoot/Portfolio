@@ -144,6 +144,10 @@ class ContactMessage(db.Model):
     ip_address = db.Column(db.String(50), nullable=True)
     is_read = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    # AI Integration Fields
+    ai_category = db.Column(db.String(50), nullable=True)
+    ai_draft = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return f'<ContactMessage from {self.name} ({self.email})>'

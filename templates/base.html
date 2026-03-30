@@ -84,6 +84,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="/playground" class="nav-link {% if request.endpoint == 'playground' %}active{% endif %}">
+                            <i class="fas fa-microchip"></i>
+                            <span>AI Lab</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="/contact" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}">
                             <i class="fas fa-envelope"></i>
                             <span>Contact</span>
@@ -182,6 +188,102 @@
             }
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; 
         }, false);
+    </script>
+    <!-- AI Recruiter Assistant Widget -->
+    <div id="ai-chat-widget">
+        <div id="ai-chat-header" onclick="toggleChat()">
+            <span><i class="fas fa-robot"></i> Abdul's AI Assistant</span> <i class="fas fa-chevron-up" id="ai-chat-icon"></i>
+        </div>
+        <div id="ai-chat-body">
+            <div id="ai-chat-messages">
+                <div class="ai-msg">Hi! I'm Abdul's AI representative. Ask me anything about his skills, projects, or background!</div>
+            </div>
+            <div id="ai-chat-input-area">
+                <input type="text" id="ai-chat-input" placeholder="Ask a question..." onkeypress="handleAIChatKeyPress(event)">
+                <button onclick="sendAIChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <style>
+        #ai-chat-widget {
+            position: fixed; bottom: 20px; right: 20px; width: 330px; background: #ffffff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 9999; font-family: 'Inter', sans-serif; overflow: hidden; border: 1px solid #e2e8f0;
+        }
+        #ai-chat-header {
+            background: #0f172a; color: #ffffff; padding: 15px; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; border-radius: 12px 12px 0 0;
+        }
+        #ai-chat-body {
+            display: none; height: 380px; flex-direction: column; background: #f8fafc;
+        }
+        #ai-chat-messages {
+            flex-grow: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+        }
+        .ai-msg { background: #e2e8f0; color: #0f172a; padding: 12px; border-radius: 12px 12px 12px 2px; font-size: 0.9rem; max-width: 85%; align-self: flex-start; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.4; }
+        .user-msg { background: #0ea5e9; color: #ffffff; padding: 12px; border-radius: 12px 12px 2px 12px; font-size: 0.9rem; max-width: 85%; align-self: flex-end; box-shadow: 0 2px 5px rgba(0,0,0,0.05); line-height: 1.4;}
+        #ai-chat-input-area {
+            display: flex; border-top: 1px solid #e2e8f0; padding: 12px; background: #ffffff; align-items: center;
+        }
+        #ai-chat-input {
+            flex-grow: 1; border: 1px solid #cbd5e1; border-radius: 20px; padding: 10px 15px; font-size: 0.9rem; outline: none; transition: border-color 0.3s;
+        }
+        #ai-chat-input:focus { border-color: #0ea5e9; }
+        #ai-chat-input-area button {
+            background: #0ea5e9; color: white; border: none; border-radius: 50%; width: 40px; height: 40px; margin-left: 10px; cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center;
+        }
+        #ai-chat-input-area button:hover { background: #0284c7; transform: scale(1.05); }
+    </style>
+    <script>
+        let chatHistory = [];
+        function toggleChat() {
+            const body = document.getElementById('ai-chat-body');
+            const icon = document.getElementById('ai-chat-icon');
+            if (body.style.display === 'flex') {
+                body.style.display = 'none';
+                icon.className = 'fas fa-chevron-up';
+            } else {
+                body.style.display = 'flex';
+                icon.className = 'fas fa-chevron-down';
+            }
+        }
+        function handleAIChatKeyPress(e) {
+            if (e.key === 'Enter') sendAIChatMessage();
+        }
+        async function sendAIChatMessage() {
+            const input = document.getElementById('ai-chat-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            input.value = '';
+            appendMessage(text, 'user-msg');
+            
+            const msgBox = document.getElementById('ai-chat-messages');
+            const loadingHtml = '<div class="ai-msg" id="ai-loading"><i class="fas fa-ellipsis-h fa-fade"></i></div>';
+            msgBox.insertAdjacentHTML('beforeend', loadingHtml);
+            msgBox.scrollTop = msgBox.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, history: chatHistory.slice(-6) })
+                });
+                const data = await response.json();
+                document.getElementById('ai-loading').remove();
+                appendMessage(data.reply, 'ai-msg');
+                chatHistory.push({ role: 'user', content: text });
+                chatHistory.push({ role: 'assistant', content: data.reply });
+            } catch (err) {
+                if(document.getElementById('ai-loading')) document.getElementById('ai-loading').remove();
+                appendMessage('Connection error. Server may be offline.', 'ai-msg');
+            }
+        }
+        function appendMessage(text, className) {
+            const msgBox = document.getElementById('ai-chat-messages');
+            const msg = document.createElement('div');
+            msg.className = className;
+            msg.textContent = text;
+            msgBox.appendChild(msg);
+            msgBox.scrollTop = msgBox.scrollHeight;
+        }
     </script>
 </body>
 

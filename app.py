@@ -9,6 +9,7 @@ import json
 import threading
 import webbrowser
 import requests as http_requests
+import ai_utils
 
 app = Flask(__name__)
 
@@ -243,18 +244,23 @@ def contact():
         if not all([name, email, subject, body]):
             return jsonify({'status': 'error', 'message': 'All fields are required.'}), 400
 
-        # 1. Save to database
+        # 1. AI Message Triage
+        triage_data = ai_utils.triage_contact_message(name, email, subject, body)
+
+        # 2. Save to database
         contact_msg = ContactMessage(
             name=name,
             email=email,
             subject=subject,
             message=body,
-            ip_address=request.remote_addr
+            ip_address=request.remote_addr,
+            ai_category=triage_data.get('category', 'UNCLASSIFIED'),
+            ai_draft=triage_data.get('draft', '')
         )
         db.session.add(contact_msg)
         db.session.commit()
 
-        # 2. Send email notification (runs in background so form responds instantly)
+        # 3. Send email notification (runs in background so form responds instantly)
         threading.Thread(target=send_contact_email, args=(name, email, subject, body), daemon=True).start()
 
         # 3. WhatsApp notification
@@ -865,6 +871,34 @@ def not_found_error(error):
 def internal_error(error):
     db.session.rollback()
     return render_template('500.html'), 500
+
+# ==============================================================================
+# AI Integration Routes
+# ==============================================================================
+@app.route('/playground')
+def playground():
+    return render_template('playground.html')
+
+@app.route('/api/generate-code', methods=['POST'])
+def api_generate_code():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": "Prompt required"}), 400
+    
+    code = ai_utils.generate_hardware_code(prompt)
+    return jsonify({"code": code})
+
+@app.route('/api/chat', methods=['POST'])
+def api_chat():
+    data = request.get_json()
+    message = data.get('message')
+    history = data.get('history', [])
+    if not message:
+        return jsonify({"error": "Message required"}), 400
+    
+    reply = ai_utils.chat_with_recruiter(message, history)
+    return jsonify({"reply": reply})
 
 # ======================== APP CONTEXT ========================
 

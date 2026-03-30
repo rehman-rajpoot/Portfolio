@@ -74,6 +74,23 @@
         <div style="white-space:pre-wrap; line-height:1.8; color:#374151; font-size:1rem;">{{ msg.message }}</div>
     </div>
 
+    <!-- AI Triage Box -->
+    {% if msg.ai_category %}
+    <div style="margin-top:1.5rem; background:#fff; border:1px solid #7DD3FC; border-radius:12px; padding:1.5rem; box-shadow:0 4px 6px rgba(14,165,233,0.1);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <label style="font-size:0.8rem; color:#0369A1; text-transform:uppercase; letter-spacing:0.05em; font-weight:800; display:flex; align-items:center; gap:8px;"><i class="fas fa-robot"></i> AI Triage Analysis</label>
+            <span style="background:#E0F2FE; color:#0369A1; padding:0.3rem 0.8rem; border-radius:999px; font-size:0.85rem; font-weight:700; border:1px solid #7DD3FC;">{{ msg.ai_category }}</span>
+        </div>
+        {% if msg.ai_draft %}
+        <div style="margin-top:1.5rem; border-top:1px solid #E0F2FE; padding-top:1rem;">
+            <label style="font-size:0.8rem; color:#6B7280; text-transform:uppercase; letter-spacing:0.05em; font-weight:700; margin-bottom:0.8rem; display:block;">AI Suggested Reply Draft</label>
+            <div style="background:#F8FAFC; padding:1.2rem; border-radius:8px; border:1px dashed #BAE6FD; font-family:monospace; font-size:0.95rem; white-space:pre-wrap; color:#334155;">{{ msg.ai_draft }}</div>
+            <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.subject }}&body={{ msg.ai_draft | urlencode }}" class="btn btn-sm" style="margin-top:1rem; background:#0ea5e9; color:white;"><i class="fas fa-reply"></i> Use this Draft in Email</a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
     <!-- Quick reply -->
     <div style="margin-top:1.5rem; padding:1.25rem; background:#EFF6FF; border-left:4px solid var(--color-primary); border-radius:8px;">
         <p style="margin:0; color:#1E40AF; font-size:0.95rem;">

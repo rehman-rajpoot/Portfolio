@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="padding-top: 6rem;"></div>
+
+<div class="container" style="max-width: 800px; margin-bottom: 5rem;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+        <h1 style="font-size: 3rem; font-weight: 900; color: #0f172a; margin-bottom: 1rem;">Hardware AI Playground</h1>
+        <p style="font-size: 1.2rem; color: #475569;">Test my deep integration with OpenAI. Type an electronic component or sensor combination below, and my AI core will generate the C++/Arduino firmware for it instantly.</p>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 20px; padding: 2.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
+        <label for="hw-prompt" style="font-weight: 700; color: #0f172a; font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">Component or Circuit Request</label>
+        <textarea id="hw-prompt" rows="3" placeholder="e.g. Generate code for an ESP32 reading a DHT11 temperature sensor and printing to serial..." style="width: 100%; padding: 1rem; border: 2px solid #e2e8f0; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 1rem; margin-bottom: 1.5rem; resize: vertical; transition: border-color 0.3s;" onfocus="this.style.borderColor='#38bdf8'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+        
+        <button id="generate-btn" style="background: #0ea5e9; color: white; border: none; padding: 1rem 2rem; font-size: 1.1rem; font-weight: 700; border-radius: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(14,165,233,0.3); width: 100%;"><i class="fas fa-microchip" style="margin-right: 8px;"></i> Generate Firmware Code</button>
+
+        <div id="output-container" style="display: none; margin-top: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <h4 style="font-weight: 800; color: #0f172a; margin: 0;">AI Generated Firmware</h4>
+                <div id="loading-spinner" style="display: none; color: #0ea5e9;"><i class="fas fa-circle-notch fa-spin"></i> Processing...</div>
+            </div>
+            <pre id="code-output" style="background: #0f172a; color: #e2e8f0; padding: 1.5rem; border-radius: 12px; overflow-x: auto; font-family: monospace; font-size: 0.9rem; border: 1px solid #334155; height: 300px; overflow-y: scroll; white-space: pre-wrap;"></pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('generate-btn').addEventListener('click', async function() {
+        const prompt = document.getElementById('hw-prompt').value.trim();
+        if (!prompt) return;
+
+        const outputContainer = document.getElementById('output-container');
+        const codeOutput = document.getElementById('code-output');
+        const spinner = document.getElementById('loading-spinner');
+        const btn = document.getElementById('generate-btn');
+
+        outputContainer.style.display = 'block';
+        codeOutput.textContent = '';
+        spinner.style.display = 'inline-block';
+        btn.disabled = true;
+        btn.style.opacity = '0.5';
+
+        try {
+            const response = await fetch('/api/generate-code', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt })
+            });
+            const data = await response.json();
+            codeOutput.textContent = data.code || data.error || 'Failed to generate code. Please check API Key.';
+        } catch (error) {
+            codeOutput.textContent = 'Server error. Is the Flask app running properly?';
+        }
+
+        spinner.style.display = 'none';
+        btn.disabled = false;
+        btn.style.opacity = '1';
+    });
+</script>
+{% endblock %}
