@@ -10,6 +10,27 @@ def init_gemini():
     genai.configure(api_key=api_key)
     return True
 
+_cached_model = None
+def get_model_name():
+    global _cached_model
+    if _cached_model: return _cached_model
+    try:
+        # Ask Google for the list of available models for this specific API key/region
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods and 'gemini' in m.name:
+                # Prefer flash or 1.5 if available
+                if 'flash' in m.name or '1.5' in m.name:
+                    _cached_model = m.name.replace('models/', '')
+                    return _cached_model
+        # Fallback to the first available gemini model
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods and 'gemini' in m.name:
+                _cached_model = m.name.replace('models/', '')
+                return _cached_model
+    except Exception as e:
+        print(f"Model List Error: {e}")
+    return 'gemini-1.5-flash'
+
 def triage_contact_message(name, email, subject, message):
     """
     Role 2: Smart Contact Triage using Gemini. Reads incoming messages and categorizes them.
@@ -36,7 +57,7 @@ def triage_contact_message(name, email, subject, message):
     """
     try:
         # Use gemini-1.5-flash for very fast JSON response
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel(get_model_name())
         response = model.generate_content(prompt)
         text = response.text.strip()
         
@@ -78,7 +99,7 @@ def chat_with_recruiter(user_message, history=None):
     prompt += f"User: {user_message}\nAssistant:"
 
     try:
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel(get_model_name())
         response = model.generate_content(prompt)
         return response.text.replace('Assistant: ', '').strip()
     except Exception as e:
@@ -103,7 +124,7 @@ def generate_hardware_code(prompt):
     
     try:
         # Use pro for complex code architecture
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel(get_model_name())
         response = model.generate_content(full_prompt)
         return response.text.strip()
     except Exception as e:
