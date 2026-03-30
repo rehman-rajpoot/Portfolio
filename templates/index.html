@@ -100,12 +100,38 @@
 }
 
 .ocean-title {
-    font-size: 4.5rem;
+    font-size: 5rem;
     font-weight: 900;
     color: #ffffff;
     margin-bottom: 1.5rem;
-    letter-spacing: -1px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    letter-spacing: -2px;
+    text-shadow: 
+        0 1px 0 #0ea5e9,
+        0 2px 0 #0284c7,
+        0 3px 0 #0369a1,
+        0 4px 0 #075985,
+        0 5px 0 #0c4a6e,
+        0 6px 1px rgba(0,0,0,.1),
+        0 0 5px rgba(0,0,0,.1),
+        0 1px 3px rgba(0,0,0,.3),
+        0 3px 5px rgba(0,0,0,.2),
+        0 5px 10px rgba(0,0,0,.25),
+        0 10px 10px rgba(0,0,0,.2),
+        0 20px 20px rgba(0,0,0,.15);
+    transform: perspective(600px) rotateX(10deg);
+    transition: transform 0.4s ease, text-shadow 0.4s ease;
+}
+.ocean-title:hover {
+    transform: perspective(600px) rotateX(0deg) translateY(-8px);
+    text-shadow: 
+        0 1px 0 #0ea5e9,
+        0 2px 0 #0284c7,
+        0 3px 0 #0369a1,
+        0 4px 0 #075985,
+        0 5px 0 #0c4a6e,
+        0 6px 0 #0f172a,
+        0 12px 15px rgba(0,0,0,.3),
+        0 25px 30px rgba(0,0,0,.25);
 }
 
 .ocean-subtitle {

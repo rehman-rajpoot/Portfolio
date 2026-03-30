@@ -71,18 +71,28 @@
 .timeline-marker .marker-dot { background: #38bdf8 !important; box-shadow: 0 0 20px #38bdf8 !important; border: 4px solid #0f172a !important; width: 20px !important; height: 20px !important; left: -10px !important; transition: transform 0.3s;}
 .timeline-content:hover ~ .timeline-marker .marker-dot { transform: scale(1.4); }
 
-.timeline-container::before { background: rgba(56, 189, 248, 0.25) !important; width: 4px !important; }
-.timeline-content h3 { color: #ffffff !important; font-size: 1.8rem !important; font-weight: 900 !important; margin-bottom: 0.5rem !important; letter-spacing: -0.5px;}
+.timeline-container::before { 
+    background: linear-gradient(to bottom, #0ea5e9 0%, #38bdf8 50%, #0ea5e9 100%) !important; 
+    background-size: 100% 200% !important;
+    animation: flow-energy 3s linear infinite !important;
+    width: 6px !important; 
+    box-shadow: 0 0 15px #38bdf8 !important;
+}
+@keyframes flow-energy {
+    0% { background-position: 0 100%; }
+    100% { background-position: 0 0; }
+}
+.timeline-content h3 { color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; margin-bottom: 0.5rem !important; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
 
 .experience-meta .company, .experience-meta .period { color: #bae6fd !important; font-size: 0.95rem; display: inline-block; margin-right: 1rem;}
 .experience-meta i { color: #38bdf8; }
 
-.experience-description { color: #e0f2fe !important; font-size: 1.1rem !important; line-height: 1.7 !important; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 0 !important; margin: 1.5rem 0 !important; }
-.responsibilities h4 { color: #38bdf8 !important; margin-bottom: 1rem !important; font-size: 1.2rem !important; font-weight: 700!important;}
-.responsibilities li { color: #cbd5e1 !important; margin-bottom: 0.6rem; font-size: 0.95rem; }
-.skill-tag { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; padding: 0.5rem 1rem !important; margin: 0.2rem !important; border-radius: 20px !important; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;}
+.experience-description { color: #f8fafc !important; font-size: 1.15rem !important; line-height: 1.8 !important; border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 1.5rem 0 !important; margin: 1.5rem 0 !important; }
+.responsibilities h4 { color: #38bdf8 !important; margin-bottom: 1rem !important; font-size: 1.25rem !important; font-weight: 800!important;}
+.responsibilities li { color: #f1f5f9 !important; margin-bottom: 0.8rem; font-size: 1.05rem; }
+.skill-tag { background: rgba(15, 23, 42, 0.4) !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; color: #e0f2fe !important; padding: 0.5rem 1rem !important; margin: 0.2rem !important; border-radius: 20px !important; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; font-weight: 600 !important;}
 .skill-tag:hover { background: #38bdf8 !important; color: #0f172a !important; transform: scale(1.1) translateY(-2px); }
-.experience-badge .exp-type { background: #0284c7 !important; font-weight: 700 !important; }
+.experience-badge .exp-type { background: #0284c7 !important; font-weight: 800 !important; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.6) !important;}
 
 /* Education UI overriding */
 .education-section { background: transparent !important; margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1);}
@@ -153,8 +163,16 @@
         <div class="container">
             <div class="timeline-container">
                 {% for exp in experiences %}
+                {% set unique_bg = [
+                    'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=1000',
+                    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1000',
+                    'https://images.unsplash.com/photo-1531297172867-11ebf40f3a5e?w=1000',
+                    'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000',
+                    'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1000'
+                ] %}
                 <div class="timeline-item {% if loop.index % 2 == 0 %}timeline-alt{% endif %}">
-                    <div class="timeline-content">
+                    <div class="timeline-content" style="background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(8, 47, 73, 0.85) 100%), url('{{ unique_bg[loop.index0 % 5] }}') center/cover !important; background-blend-mode: multiply !important; box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important; border: 2px solid rgba(56, 189, 248, 0.4) !important;">
+
                         <div class="experience-badge">
                             <span class="exp-type">Experience</span>
                         </div>
