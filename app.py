@@ -45,13 +45,14 @@ login_manager.login_view = 'admin_login'
 
 def send_contact_email(name, email, subject, message_body):
     """Send notification email to owner when a contact form is submitted."""
-    try:
-        msg = MailMessage(
-            subject=f'[Portfolio Contact] {subject}',
-            recipients=[OWNER_EMAIL],
-            reply_to=email
-        )
-        msg.body = f"""New message from your portfolio contact form!
+    with app.app_context():
+        try:
+            msg = MailMessage(
+                subject=f'[Portfolio Contact] {subject}',
+                recipients=[OWNER_EMAIL],
+                reply_to=email
+            )
+            msg.body = f"""New message from your portfolio contact form!
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 From   : {name}
@@ -64,11 +65,11 @@ Subject: {subject}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Reply directly to this email to respond to {name}.
 """
-        mail.send(msg)
-        return True
-    except Exception as e:
-        app.logger.error(f'Email send failed: {e}')
-        return False
+            mail.send(msg)
+            return True
+        except Exception as e:
+            app.logger.error(f'Email send failed: {e}')
+            return False
 
 def send_whatsapp_notification(name, email, subject):
     """Send WhatsApp notification via Meta WhatsApp Cloud API."""
