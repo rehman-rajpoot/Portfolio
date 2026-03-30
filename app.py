@@ -144,7 +144,8 @@ def get_projects():
         return [{'id': p.id, 'title': p.title, 'description': p.description, 
                 'category': p.category, 'details': p.details, 'image_filename': p.image_filename,
                 'skills': [s.name for s in p.skills]} for p in projects]
-    except:
+    except Exception as e:
+        app.logger.error(f"Error in get_projects: {e}")
         return []
 
 def get_experiences():
@@ -154,7 +155,8 @@ def get_experiences():
         return [{'id': e.id, 'title': e.title, 'company': e.company, 'period': e.period,
                 'description': e.description, 'responsibilities': e.get_responsibilities(),
                 'skills': [s.name for s in e.skills]} for e in experiences]
-    except:
+    except Exception as e:
+        app.logger.error(f"Error in get_experiences: {e}")
         return []
 
 def get_education():
@@ -164,7 +166,8 @@ def get_education():
         return [{'id': e.id, 'level': e.level, 'field': e.field, 'school': e.school,
                 'location': e.location, 'period': e.period, 'grade': e.grade,
                 'details': e.get_details()} for e in education]
-    except:
+    except Exception as e:
+        app.logger.error(f"Error in get_education: {e}")
         return []
 
 def get_skills_by_category():
@@ -180,7 +183,8 @@ def get_skills_by_category():
                 'items': [s.name for s in skills]
             })
         return result
-    except:
+    except Exception as e:
+        app.logger.error(f"Error in get_skills: {e}")
         return []
 
 # ======================== PUBLIC ROUTES ========================

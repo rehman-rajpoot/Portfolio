@@ -20,7 +20,7 @@
             <div class="timeline-item {% if loop.index % 2 == 0 %}timeline-alt{% endif %}">
                 <div class="timeline-content">
                     <div class="experience-badge">
-                        <span class="exp-type">{{ exp.type }}</span>
+                        <span class="exp-type">Experience</span>
                     </div>
                     
                     <h3>{{ exp.title }}</h3>
@@ -67,59 +67,31 @@
         <h2>Education</h2>
         
         <div class="education-grid">
+            {% for edu in education %}
             <div class="education-card">
                 <div class="edu-icon">
                     <i class="fas fa-graduation-cap"></i>
                 </div>
-                <h3>Bachelor of Science</h3>
-                <p class="edu-field">Electrical Engineering</p>
-                <p class="edu-university">FAST National University of Computer and Emerging Sciences</p>
-                <p class="edu-location">Chiniot, Pakistan</p>
-                <p class="edu-period">2021 - Present</p>
+                <h3>{{ edu.level }}</h3>
+                <p class="edu-field">{{ edu.field }}</p>
+                <p class="edu-school">{{ edu.school }}</p>
+                <p class="edu-location">{{ edu.location }}</p>
+                <p class="edu-period">{{ edu.period }}</p>
                 <div class="edu-details">
-                    <p><strong>Specialization:</strong> Computer Engineering</p>
-                    <p><strong>Credits:</strong> 89 (EQF Level 6)</p>
-                    <p><strong>Key Subjects:</strong></p>
+                    {% if edu.grade %}<p><strong>Grade:</strong> {{ edu.grade }}</p>{% endif %}
+                    {% if edu.details.get('eqf_level') %}<p><strong>Level:</strong> {{ edu.details.get('eqf_level') }}</p>{% endif %}
+                    {% if edu.details.get('credits') %}<p><strong>Credits:</strong> {{ edu.details.get('credits') }}</p>{% endif %}
+                    {% if edu.details.get('subjects') %}
+                    <p><strong>Subjects:</strong></p>
                     <ul class="subject-list">
-                        <li>Electrical Circuit Analysis</li>
-                        <li>Digital Logic Design</li>
-                        <li>Embedded Systems & IoT</li>
-                        <li>Feedback Control Systems</li>
-                        <li>Computer Networks</li>
-                        <li>Microcontroller Programming</li>
+                        {% for subj in edu.details.get('subjects') %}
+                        <li>{{ subj }}</li>
+                        {% endfor %}
                     </ul>
+                    {% endif %}
                 </div>
             </div>
-
-            <div class="education-card">
-                <div class="edu-icon">
-                    <i class="fas fa-book"></i>
-                </div>
-                <h3>Intermediate</h3>
-                <p class="edu-field">ICS (Introduction to Computer Science)</p>
-                <p class="edu-school">Nusrat Jehan Boys Inter College</p>
-                <p class="edu-location">Chenab Nagar, Pakistan</p>
-                <p class="edu-period">2021 - 2023</p>
-                <div class="edu-details">
-                    <p><strong>Grade:</strong> A Grade</p>
-                    <p><strong>Level:</strong> EQF Level 4</p>
-                </div>
-            </div>
-
-            <div class="education-card">
-                <div class="edu-icon">
-                    <i class="fas fa-certificate"></i>
-                </div>
-                <h3>Matriculation</h3>
-                <p class="edu-field">Science</p>
-                <p class="edu-school">Nusrat Jehan Academy Boys High School</p>
-                <p class="edu-location">Chenab Nagar, Pakistan</p>
-                <p class="edu-period">2019 - 2021</p>
-                <div class="edu-details">
-                    <p><strong>Grade:</strong> A-1 Grade</p>
-                    <p><strong>Level:</strong> EQF Level 2</p>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>

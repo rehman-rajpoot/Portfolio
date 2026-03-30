@@ -30,12 +30,12 @@
         <p>{{ project.description }}</p>
         
         <div class="tech-stack">
-            {% for tech in project.tech %}
+            {% for tech in project.skills %}
             <span class="tech-badge">{{ tech }}</span>
             {% endfor %}
         </div>
         
-        <a href="{{ project.link }}" class="project-link">
+        <a href="#" class="project-link">
             View Project <i class="fas fa-arrow-right"></i>
         </a>
     </div>
@@ -75,6 +75,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     });
+
+    // Initialize all showing
+    const initialActive = document.querySelector('.filter-btn.active');
+    if (initialActive) {
+        initialActive.click();
+    } else if (filterBtns.length > 0) {
+        filterBtns[0].click();
+    }
 });
 </script>
 {% endblock %}
