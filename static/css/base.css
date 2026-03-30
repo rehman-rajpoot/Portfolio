@@ -7,27 +7,28 @@
 }
 
 /* Root Colors - Nature/Aesthetic Theme */
+/* Root Colors - Oceanic Tech Theme */
 :root {
-    --color-primary: #344E41; /* Deep forest green */
-    --color-primary-light: #588157; /* Soft sage green */
-    --color-primary-dark: #1F3028; /* Dark moss */
-    --color-background: #F2F4F2; /* Very faint airy green/grey */
-    --color-surface: #FFFFFF;
-    --color-surface-hover: #E3E9E5;
-    --color-text-primary: #212c24; /* Soft black with green tint */
-    --color-text-secondary: #4a5c50;
-    --color-text-tertiary: #8b998f;
-    --color-border: rgba(52, 78, 65, 0.1);
-    --color-border-hover: rgba(52, 78, 65, 0.2);
-    --color-success: #3A5A40;
-    --color-error: #B45309; /* Deep amber/orange instead of harsh red */
+    --color-primary: #0ea5e9; /* Sky blue / ocean */
+    --color-primary-light: #38bdf8; 
+    --color-primary-dark: #0284c7; 
+    --color-background: #f0f9ff; /* Airy sky tint */
+    --color-surface: #ffffff;
+    --color-surface-hover: #e0f2fe;
+    --color-text-primary: #0f172a; /* Deep slate */
+    --color-text-secondary: #334155;
+    --color-text-tertiary: #64748b;
+    --color-border: rgba(14, 165, 233, 0.15);
+    --color-border-hover: rgba(14, 165, 233, 0.3);
+    --color-success: #0ea5e9;
+    --color-error: #e11d48;
 }
 
 /* Global Body */
 body {
     background-color: var(--color-background);
     color: var(--color-text-primary);
-    font-family: 'Georgia', 'Playfair Display', serif; /* Antique serif base */
+    font-family: 'Inter', system-ui, sans-serif; /* Modern Tech Font */
     overflow-x: hidden;
 }
 
@@ -470,11 +471,11 @@ body {
 
 /* Footer - Nature Dark Theme */
 footer {
-    background: linear-gradient(135deg, #1A2E24 0%, #0F1A14 100%);
+    background: linear-gradient(135deg, #0f172a 0%, #082f49 100%);
     color: #cbd5e1;
     padding-top: 0;
     margin-top: 6rem;
-    border-top: 3px solid #3A5A40;
+    border-top: 3px solid #0284c7;
 }
 
 .footer-main {
@@ -495,10 +496,10 @@ footer {
 }
 
 .footer-column h3 {
-    color: #A3B18A;
+    color: #38bdf8;
     font-size: 1.5rem;
-    font-family: 'Playfair Display', serif;
-    font-weight: normal;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
     margin-bottom: 0.5rem;
     letter-spacing: 0.5px;
 }
@@ -511,15 +512,15 @@ footer {
     text-transform: uppercase;
     letter-spacing: 1px;
     padding-bottom: 0.8rem;
-    border-bottom: 2px solid rgba(163, 177, 138, 0.3);
+    border-bottom: 2px solid rgba(56, 189, 248, 0.3);
     font-family: 'Inter', sans-serif;
 }
 
 .footer-subtitle {
-    color: #A3B18A;
+    color: #38bdf8;
     font-size: 0.95rem;
-    font-weight: normal;
-    font-style: italic;
+    font-weight: 600;
+    font-style: normal;
     margin-bottom: 0.8rem;
 }
 
@@ -552,7 +553,7 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #A3B18A;
+    color: #38bdf8;
     transform: translateX(5px);
 }
 
@@ -574,7 +575,7 @@ footer {
 }
 
 .footer-contact i {
-    color: #A3B18A;
+    color: #38bdf8;
     width: 18px;
     text-align: center;
 }
@@ -591,9 +592,9 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(163, 177, 138, 0.15);
-    border: 2px solid rgba(163, 177, 138, 0.3);
-    color: #A3B18A;
+    background: rgba(56, 189, 248, 0.15);
+    border: 2px solid rgba(56, 189, 248, 0.3);
+    color: #38bdf8;
     border-radius: 50%;
     text-decoration: none;
     transition: all 0.3s ease;
@@ -601,16 +602,16 @@ footer {
 }
 
 .footer-social a:hover {
-    background: #A3B18A;
-    color: #0F1A14;
+    background: #38bdf8;
+    color: #0f172a;
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(163, 177, 138, 0.3);
+    box-shadow: 0 8px 20px rgba(56, 189, 248, 0.3);
 }
 
 /* Footer Bottom */
 .footer-bottom {
     background: rgba(0, 0, 0, 0.3);
-    border-top: 1px solid rgba(163, 177, 138, 0.2);
+    border-top: 1px solid rgba(56, 189, 248, 0.2);
     padding: 1.5rem 0;
     text-align: center;
 }
@@ -618,7 +619,7 @@ footer {
 .footer-bottom p {
     margin: 0;
     font-size: 0.85rem;
-    color: #8b998f;
+    color: #94a3b8;
     font-family: 'Inter', sans-serif;
 }
 

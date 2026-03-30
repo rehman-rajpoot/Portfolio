@@ -7,8 +7,9 @@
 {% block content %}
 
 <!-- Introvert Aesthetic Nature Hero Section -->
+<!-- Oceanic Tech Hero Slider -->
 <style>
-.aesthetic-hero {
+.ocean-hero {
     position: relative;
     width: 100vw;
     min-height: calc(100vh - 80px); /* Height below navbar */
@@ -17,27 +18,34 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Using real breathtaking photo from unsplash of misty rainy forest */
-    background-image: url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=2500&auto=format&fit=crop");
+    overflow: hidden;
+    padding: 2rem;
+    font-family: 'Inter', sans-serif; 
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    overflow: hidden;
-    padding: 2rem;
-    font-family: 'Georgia', serif; 
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    z-index: 0;
 }
+.hero-slide.active { opacity: 1; }
 
-.aesthetic-overlay {
+.ocean-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(180deg, rgba(31, 48, 40, 0.5) 0%, rgba(15, 26, 20, 0.8) 100%);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(8, 47, 73, 0.7) 100%);
     z-index: 1;
 }
 
-.aesthetic-container {
+.ocean-container {
     position: relative;
     z-index: 2;
-    max-width: 1100px;
+    max-width: 1150px;
     width: 100%;
     display: flex;
     flex-wrap: wrap-reverse;
@@ -46,142 +54,210 @@
     justify-content: space-between;
 }
 
-.aesthetic-text {
+.ocean-text {
     flex: 1 1 500px;
     text-align: left;
     color: #e2e8f0;
 }
 
-.aesthetic-greeting {
+.ocean-greeting {
     font-size: 1.1rem;
-    letter-spacing: 2.5px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #A3B18A;
+    color: #38bdf8;
     margin-bottom: 0.5rem;
-    font-style: italic;
+    font-weight: 700;
 }
 
-.aesthetic-title {
+.ocean-title {
     font-size: 4.5rem;
-    font-weight: normal;
-    color: #FAFAF8;
+    font-weight: 900;
+    color: #ffffff;
     margin-bottom: 1.5rem;
-    font-family: 'Playfair Display', 'Georgia', serif;
-    letter-spacing: 1px;
-    text-shadow: 2px 4px 10px rgba(0,0,0,0.6);
+    letter-spacing: -1px;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-.aesthetic-subtitle {
+.ocean-subtitle {
     font-size: 1.25rem;
     line-height: 1.8;
-    color: #e3e9e5;
+    color: #e0f2fe;
     margin-bottom: 2.5rem;
-    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 300;
 }
 
-.aesthetic-buttons {
+.ocean-buttons {
     display: flex;
     gap: 1.5rem;
 }
 
-.btn-aesthetic-primary {
-    background: rgba(88, 129, 87, 0.9); 
-    border: 1px solid rgba(163, 177, 138, 0.6);
-    color: #FAFAF8;
-    padding: 0.8rem 2.5rem;
-    border-radius: 4px;
+.btn-ocean-primary {
+    background: rgba(14, 165, 233, 0.85); 
+    border: 1px solid rgba(56, 189, 248, 0.5);
+    color: #ffffff;
+    padding: 0.9rem 2.8rem;
+    border-radius: 8px;
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
-    font-size: 1rem;
+    font-weight: 600;
     transition: all 0.4s ease;
     backdrop-filter: blur(5px);
 }
-.btn-aesthetic-primary:hover {
-    background: rgba(88, 129, 87, 1);
-    border-color: #FAFAF8;
+.btn-ocean-primary:hover {
+    background: rgba(14, 165, 233, 1);
+    border-color: #ffffff;
     transform: translateY(-2px);
     color: white;
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4);
 }
 
-.btn-aesthetic-secondary {
-    background: rgba(31, 48, 40, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+.btn-ocean-secondary {
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: white;
-    padding: 0.8rem 2.5rem;
-    border-radius: 4px;
+    padding: 0.9rem 2.8rem;
+    border-radius: 8px;
     text-decoration: none;
-    font-family: 'Inter', sans-serif;
+    font-weight: 600;
     transition: all 0.4s ease;
     backdrop-filter: blur(5px);
 }
-.btn-aesthetic-secondary:hover {
-    background: rgba(255,255,255,0.2);
+.btn-ocean-secondary:hover {
+    background: rgba(255,255,255,0.15);
     color: white;
 }
 
-.aesthetic-profile-wrap {
+/* Hovering Frame Profile */
+.ocean-profile-wrap {
     flex: 0 1 auto;
     display: flex;
     justify-content: center;
+    position: relative;
 }
 
-.aesthetic-profile {
-    width: 330px;
-    height: 440px;
-    object-fit: cover;
-    border-radius: 2px;
-    border: 14px solid #f8fafc; 
-    border-bottom-width: 55px;
-    box-shadow: 10px 15px 35px rgba(0,0,0,0.6);
-    transform: rotate(3deg);
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    background: #fff;
-    cursor: pointer;
+.tech-ring {
+    position: absolute;
+    width: 370px;
+    height: 450px;
+    border: 2px dashed rgba(56, 189, 248, 0.4);
+    border-radius: 30px;
+    top: -25px; left: -20px;
+    z-index: 1;
+    animation: spin-slow 25s linear infinite;
 }
-.aesthetic-profile:hover {
-    transform: rotate(0deg) scale(1.02);
-    box-shadow: 15px 25px 45px rgba(0,0,0,0.7);
+@keyframes spin-slow { 100% { transform: rotate(360deg); } }
+
+.ocean-profile {
+    width: 330px;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    border: 4px solid rgba(56, 189, 248, 0.3);
+    box-shadow: 0 20px 50px rgba(2, 132, 199, 0.3);
+    position: relative;
+    z-index: 2;
+    transition: all 0.5s ease;
+}
+.ocean-profile:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(2, 132, 199, 0.5);
+    border-color: #38bdf8;
+}
+
+/* Slider bottom dots */
+.slider-controls {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: 1rem;
+}
+.slider-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+.slider-dot.active {
+    background: #38bdf8;
+    transform: scale(1.3);
+    box-shadow: 0 0 10px #38bdf8;
 }
 
 @media (max-width: 900px) {
-    .aesthetic-container {
-        justify-content: center;
-        text-align: center;
-    }
-    .aesthetic-text {
-        text-align: center;
-    }
-    .aesthetic-buttons {
-        justify-content: center;
-    }
-    .aesthetic-title {
-        font-size: 3.5rem;
-    }
+    .ocean-container { justify-content: center; text-align: center; }
+    .ocean-text { text-align: center; }
+    .ocean-buttons { justify-content: center; }
+    .ocean-title { font-size: 3.2rem; }
+    .tech-ring { display: none; }
 }
 </style>
 
-<section class="aesthetic-hero">
-    <div class="aesthetic-overlay"></div>
-    <div class="aesthetic-container">
-        <div class="aesthetic-text">
-            <div class="aesthetic-greeting">Explorer. Designer. Builder.</div>
-            <h1 class="aesthetic-title">Abdul Rehman</h1>
-            <p class="aesthetic-subtitle">
-                Finding absolute clarity in complex engineering. <br><br>
-                I thrive at the calm intersection of organic design and deep logic—crafting embedded systems, robust hardware architectures, and elegant software solutions that feel natural, resilient, and carefully considered.
+<section class="ocean-hero">
+    <!-- Slide 1: Space/Earth Tech -->
+    <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2500');"></div>
+    <!-- Slide 2: Minimalist Dark Ocean -->
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1542327898-3843d1a337aa?q=80&w=2500');"></div>
+    <!-- Slide 3: Blue Light Circuit/Fiber Optics -->
+    <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2500');"></div>
+    
+    <div class="ocean-overlay"></div>
+    
+    <div class="ocean-container">
+        <div class="ocean-text">
+            <div class="ocean-greeting">Computer Engineer & Innovator</div>
+            <h1 class="ocean-title">Abdul Rehman</h1>
+            <p class="ocean-subtitle">
+                Bridging the fluidity of the natural world with the precision of Electrical Engineering. <br><br>
+                Designing next-generation hardware architectures, sophisticated IoT systems, and deep-tech web software that flow seamlessly together.
             </p>
-            <div class="aesthetic-buttons">
-                <a href="/projects" class="btn-aesthetic-primary">View My Work</a>
-                <a href="/contact" class="btn-aesthetic-secondary">Say Hello</a>
+            <div class="ocean-buttons">
+                <a href="/projects" class="btn-ocean-primary">View Portfolio</a>
+                <a href="/contact" class="btn-ocean-secondary">Let's Connect</a>
             </div>
         </div>
         
-        <div class="aesthetic-profile-wrap">
-            <img src="{{ url_for('static', filename='images/profile/Profile pic.jpg') }}" alt="Abdul Rehman" class="aesthetic-profile">
+        <div class="ocean-profile-wrap">
+            <div class="tech-ring"></div>
+            <!-- FIXED missing profile pic URL pointing directly to root images folder where it's saved! -->
+            <img src="{{ url_for('serve_image', filename='profile/Profile pic.jpg') }}" alt="Abdul Rehman" class="ocean-profile">
         </div>
     </div>
+
+    <!-- Manual Slider Dots -->
+    <div class="slider-controls">
+        <button class="slider-dot active" onclick="setSlide(0)"></button>
+        <button class="slider-dot" onclick="setSlide(1)"></button>
+        <button class="slider-dot" onclick="setSlide(2)"></button>
+    </div>
 </section>
+
+<script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.hero-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    
+    function setSlide(index) {
+        if (!slides.length) return;
+        slides[currentSlide].classList.remove('active');
+        dots[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dots[currentSlide].classList.add('active');
+    }
+    
+    // Auto cycle every 6 seconds
+    setInterval(() => {
+        if (!slides.length) return;
+        let next = (currentSlide + 1) % slides.length;
+        setSlide(next);
+    }, 6000);
+</script>
 
 <!-- Skills Section -->
 <section class="skills-section">

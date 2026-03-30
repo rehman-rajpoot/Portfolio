@@ -24,7 +24,8 @@
     <div class="project-card" data-category="{{ project.category }}">
         {% if project.image_filename %}
         <div class="project-image" style="height: 200px; overflow: hidden; border-radius: 8px; margin-bottom: 1rem;">
-            <img src="{{ url_for('serve_image', filename=project.image_filename) }}" alt="{{ project.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- FIXED missing project image URL pointing directly to root images/projects/ folder where it's saved! -->
+            <img src="{{ url_for('serve_image', filename='projects/' ~ project.image_filename) }}" alt="{{ project.title }}" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         {% else %}
         <div class="project-icon">
