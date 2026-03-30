@@ -15,149 +15,110 @@
 </div>
 
 <style>
-/* Automation Aesthetic Upgrade */
+/* Simplified Professional Aesthetic Upgrade */
 .automation-wrapper {
     position: relative;
     padding: 6rem 0;
     margin: -1rem 0;
-    overflow: hidden;
-    background: radial-gradient(circle at center, #0f172a 0%, #020617 100%);
+    background: #f8fafc; /* very light slate background */
 }
-.automation-wrapper::before {
-    content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
-    /* Dark grid tech overlay without overpowering image */
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(2, 132, 199, 0.15) 100%);
-    z-index: 1;
-}
-
-/* Floating Automation Gears / Tech nodes */
-.bg-gears {
-    position: absolute; top:0; left:0; width: 100%; height: 100%;
-    z-index: 1; pointer-events:none; overflow: hidden;
-}
-.bg-gears i {
-    position: absolute; color: rgba(56, 189, 248, 0.12); font-size: 15rem;
-    animation: spin-gear 40s linear infinite;
-}
-@keyframes spin-gear { 100% { transform: rotate(360deg); } }
-.gear-1 { top: 5%; left: -5%; animation-duration: 45s; }
-.gear-2 { top: 35%; right: -5%; font-size: 24rem; animation-direction: reverse; color: rgba(14, 165, 233, 0.08); }
-.gear-3 { bottom: 15%; left: 30%; font-size: 15rem; animation-duration: 35s; }
-.gear-4 { top: 65%; right: 20%; font-size: 10rem; animation-duration: 25s; animation-direction: reverse; color: rgba(56, 189, 248, 0.15);}
-.gear-5 { bottom: -5%; right: 5%; font-size: 30rem; animation-duration: 55s; color: rgba(15, 23, 42, 0.5);}
+.automation-wrapper::before { display: none; }
+.bg-gears { display: none; }
 
 .automation-wrapper .container { position: relative; z-index: 2; }
 
 /* Timeline UI overriding */
 .timeline-content {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(56, 189, 248, 0.25) !important;
-    backdrop-filter: blur(16px);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 20px !important;
-    color: #e2e8f0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+    color: #334155;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
     padding: 2.5rem !important;
 }
 .timeline-item.timeline-alt .timeline-content {
     text-align: right; /* Maintain standard */
 }
 .timeline-content:hover {
-    transform: translateY(-10px) !important;
-    box-shadow: 0 20px 50px rgba(56, 189, 248, 0.4) !important;
-    border-color: #38bdf8 !important;
-    background: rgba(255, 255, 255, 0.06) !important;
+    transform: translateY(-8px) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+    border-color: #cbd5e1 !important;
 }
-.timeline-marker .marker-dot { background: #38bdf8 !important; box-shadow: 0 0 20px #38bdf8 !important; border: 4px solid #0f172a !important; width: 20px !important; height: 20px !important; left: -10px !important; transition: transform 0.3s;}
-.timeline-content:hover ~ .timeline-marker .marker-dot { transform: scale(1.4); }
+.timeline-marker .marker-dot { background: #0ea5e9 !important; box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2) !important; border: 3px solid #ffffff !important; width: 16px !important; height: 16px !important; left: -8px !important; transition: transform 0.3s;}
+.timeline-content:hover ~ .timeline-marker .marker-dot { transform: scale(1.3); }
 
 .timeline-container::before { 
-    background: linear-gradient(to bottom, #0ea5e9 0%, #38bdf8 50%, #0ea5e9 100%) !important; 
-    background-size: 100% 200% !important;
-    animation: flow-energy 3s linear infinite !important;
-    width: 6px !important; 
-    box-shadow: 0 0 15px #38bdf8 !important;
+    background: #e2e8f0 !important; 
+    animation: none !important;
+    width: 3px !important; 
+    box-shadow: none !important;
 }
-@keyframes flow-energy {
-    0% { background-position: 0 100%; }
-    100% { background-position: 0 0; }
-}
-.timeline-content h3 { color: #ffffff !important; font-size: 2rem !important; font-weight: 900 !important; margin-bottom: 0.5rem !important; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+.timeline-content h3 { color: #0f172a !important; font-size: 1.8rem !important; font-weight: 800 !important; margin-bottom: 0.5rem !important; text-shadow: none; letter-spacing:-0.5px;}
 
-.experience-meta .company, .experience-meta .period { color: #bae6fd !important; font-size: 0.95rem; display: inline-block; margin-right: 1rem;}
-.experience-meta i { color: #38bdf8; }
+.experience-meta .company, .experience-meta .period { color: #64748b !important; font-size: 0.95rem; display: inline-block; margin-right: 1rem;}
+.experience-meta i { color: #94a3b8; }
 
-.experience-description { color: #f8fafc !important; font-size: 1.15rem !important; line-height: 1.8 !important; border-top: 1px solid rgba(255,255,255,0.2); border-bottom: 1px solid rgba(255,255,255,0.2); padding: 1.5rem 0 !important; margin: 1.5rem 0 !important; }
-.responsibilities h4 { color: #38bdf8 !important; margin-bottom: 1rem !important; font-size: 1.25rem !important; font-weight: 800!important;}
-.responsibilities li { color: #f1f5f9 !important; margin-bottom: 0.8rem; font-size: 1.05rem; }
-.skill-tag { background: rgba(15, 23, 42, 0.4) !important; border: 1px solid rgba(56, 189, 248, 0.4) !important; color: #e0f2fe !important; padding: 0.5rem 1rem !important; margin: 0.2rem !important; border-radius: 20px !important; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.4) !important; font-weight: 600 !important;}
-.skill-tag:hover { background: #38bdf8 !important; color: #0f172a !important; transform: scale(1.1) translateY(-2px); }
-.experience-badge .exp-type { background: #0284c7 !important; font-weight: 800 !important; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.6) !important;}
+.experience-description { color: #475569 !important; font-size: 1.1rem !important; line-height: 1.7 !important; border-top: 1px solid #f1f5f9; border-bottom: 1px solid #f1f5f9; padding: 1.5rem 0 !important; margin: 1.5rem 0 !important; }
+.responsibilities h4 { color: #0f172a !important; margin-bottom: 1rem !important; font-size: 1.1rem !important; font-weight: 700!important;}
+.responsibilities li { color: #475569 !important; margin-bottom: 0.5rem; font-size: 1rem; }
+.skill-tag { background: #f1f5f9 !important; border: 1px solid #e2e8f0 !important; color: #475569 !important; padding: 0.4rem 1rem !important; margin: 0.2rem !important; border-radius: 20px !important; transition: all 0.3s ease; box-shadow: none !important; font-weight: 600 !important;}
+.skill-tag:hover { background: #0ea5e9 !important; color: #ffffff !important; border-color: #0ea5e9 !important; }
+.experience-badge .exp-type { background: #f8fafc !important; color: #64748b !important; border: 1px solid #e2e8f0 !important; font-weight: 700 !important; letter-spacing: 1px; box-shadow: none !important;}
 
 /* Education UI overriding */
-.education-section { background: transparent !important; margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1);}
-.education-section h2 { text-align: center; color: white !important; font-size: 3.5rem !important; font-weight: 900; margin-bottom: 4rem; text-transform: uppercase; letter-spacing: 2px;}
+.education-section { background: transparent !important; margin-top: 5rem; padding-top: 4rem; border-top: 1px solid #e2e8f0;}
+.education-section h2 { text-align: center; color: #0f172a !important; font-size: 3.5rem !important; font-weight: 900; margin-bottom: 4rem; text-transform: uppercase; letter-spacing: 2px;}
 
 .education-card {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(56, 189, 248, 0.3) !important;
-    backdrop-filter: blur(15px);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 20px !important;
     padding: 3rem 2.5rem !important;
-    color: #e2e8f0;
+    color: #334155;
     transition: transform 0.4s ease, box-shadow 0.4s ease !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
     position: relative;
     overflow: hidden;
 }
 .education-card::before {
-    content:''; position: absolute; top:0; left:0; width:100%; height:5px;
-    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+    content:''; position: absolute; top:0; left:0; width:100%; height:4px;
+    background: #0ea5e9;
 }
-.education-card:hover { transform: translateY(-10px) !important; border-color: #38bdf8 !important; box-shadow: 0 20px 50px rgba(56, 189, 248, 0.3) !important; background: rgba(255, 255, 255, 0.06) !important;}
+.education-card:hover { transform: translateY(-8px) !important; border-color: #cbd5e1 !important; box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;}
 
-.edu-icon { width: 80px !important; height: 80px !important; background: rgba(56, 189, 248, 0.1) !important; border: 2px solid rgba(56, 189, 248, 0.4)!important; border-radius: 50% !important; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto !important; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3) !important;}
-.edu-icon i { color: #38bdf8 !important; font-size: 2.2rem !important; }
-.education-card h3 { color: white !important; font-size: 1.8rem !important; font-weight: 800 !important; margin-bottom: 0.5rem !important; text-align: center;}
-.edu-field { color: #38bdf8 !important; font-weight: 700 !important; text-align: center; font-size: 1.15rem; margin-bottom: 1rem !important;}
-.edu-school, .edu-location, .edu-period { color: #cbd5e1 !important; text-align: center; margin-bottom: 0.3rem !important; font-size: 0.95rem; }
-.edu-details { border-top: 1px solid rgba(255,255,255,0.1) !important; margin-top: 2rem !important; padding-top: 2rem !important; }
-.edu-details p { color: #f1f5f9 !important; margin-bottom: 0.6rem !important; }
-.edu-details strong { color: #38bdf8 !important; font-weight: 700 !important;}
-.subject-list li { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; padding: 0.4rem 1rem !important; border-radius: 20px !important; margin: 0.3rem; display: inline-block; font-size: 0.85rem;}
+.edu-icon { width: 70px !important; height: 70px !important; background: #f8fafc !important; border: 2px solid #e2e8f0 !important; border-radius: 50% !important; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto !important; box-shadow: none !important;}
+.edu-icon i { color: #0ea5e9 !important; font-size: 2rem !important; }
+.education-card h3 { color: #0f172a !important; font-size: 1.6rem !important; font-weight: 800 !important; margin-bottom: 0.5rem !important; text-align: center;}
+.edu-field { color: #0ea5e9 !important; font-weight: 700 !important; text-align: center; font-size: 1.1rem; margin-bottom: 1rem !important;}
+.edu-school, .edu-location, .edu-period { color: #64748b !important; text-align: center; margin-bottom: 0.3rem !important; font-size: 0.95rem; }
+.edu-details { border-top: 1px solid #f1f5f9 !important; margin-top: 1.5rem !important; padding-top: 1.5rem !important; }
+.edu-details p { color: #475569 !important; margin-bottom: 0.6rem !important; }
+.edu-details strong { color: #0ea5e9 !important; font-weight: 700 !important;}
+.subject-list li { background: #f1f5f9 !important; border: 1px solid #e2e8f0 !important; color: #475569 !important; padding: 0.4rem 1rem !important; border-radius: 20px !important; margin: 0.3rem; display: inline-block; font-size: 0.85rem;}
 
 /* Competencies Override */
-.skills-summary { background: transparent !important; border-top: 1px solid rgba(255,255,255,0.1) !important; padding-top: 5rem;}
-.skills-summary h2 { text-align: center; color: white !important; font-size: 3.5rem !important; margin-bottom: 4rem; text-transform: uppercase; font-weight: 900;}
+.skills-summary { background: transparent !important; border-top: 1px solid #e2e8f0 !important; padding-top: 5rem;}
+.skills-summary h2 { text-align: center; color: #0f172a !important; font-size: 3.5rem !important; margin-bottom: 4rem; text-transform: uppercase; font-weight: 900;}
 .competency-group {
-    background: rgba(255, 255, 255, 0.03) !important;
-    border: 1px solid rgba(56, 189, 248, 0.25) !important;
-    backdrop-filter: blur(15px);
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
     border-radius: 20px !important;
     padding: 2.5rem !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
     transition: all 0.4s ease;
 }
-.competency-group:hover { transform: translateY(-5px); border-color: #38bdf8 !important; box-shadow: 0 15px 40px rgba(56, 189, 248, 0.3) !important;}
-.competency-group h3 { color: #38bdf8 !important; font-weight: 800 !important; font-size: 1.4rem !important; margin-bottom: 1.5rem !important; border-bottom: 2px solid rgba(56, 189, 248, 0.2) !important; padding-bottom: 0.8rem;}
-.skill-item { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; border-radius: 20px !important;}
+.competency-group:hover { transform: translateY(-5px); border-color: #cbd5e1 !important; box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;}
+.competency-group h3 { color: #0f172a !important; font-weight: 800 !important; font-size: 1.4rem !important; margin-bottom: 1.5rem !important; border-bottom: 2px solid #f1f5f9 !important; padding-bottom: 0.8rem;}
+.skill-item { background: #f8fafc !important; border: 1px solid #e2e8f0 !important; color: #475569 !important; border-radius: 20px !important;}
 
 /* CTA */
-.experience-cta { background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(15, 23, 42, 0.5) 100%) !important; border-top: 1px solid rgba(56, 189, 248, 0.3) !important; margin-bottom: -5rem !important;}
+.experience-cta { background: #0f172a !important; border-top: none !important; margin-bottom: -5rem !important;}
 .experience-cta h2 { color: white !important; font-weight: 900 !important; font-size: 3.5rem;}
-.experience-cta p { color: #e0f2fe !important; font-size: 1.25rem; font-weight: 300;}
+.experience-cta p { color: #94a3b8 !important; font-size: 1.25rem; font-weight: 300;}
 </style>
 
 <div class="automation-wrapper">
-    <!-- Spinning Automation Gears Background Elements -->
-    <div class="bg-gears">
-        <i class="fas fa-cog gear gear-1"></i>
-        <i class="fas fa-cogs gear gear-2"></i>
-        <i class="fas fa-microchip gear gear-3"></i>
-        <i class="fas fa-cog gear gear-4"></i>
-        <i class="fas fa-robot gear gear-5"></i>
-    </div>
-
     <!-- Experience Timeline -->
     <section class="experience-timeline">
         <div class="container">
@@ -167,10 +128,10 @@
                 
                 {# Read experience data: Only map a background image to the Electrician/Engineer role (1 image in back of one experience) #}
                 {% if 'electrician' in title_lower or 'engineer' in title_lower %}
-                    {% set card_bg = "background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(8, 47, 73, 0.85) 100%), url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1000') center/cover !important; background-blend-mode: multiply !important; box-shadow: 0 10px 40px rgba(0,0,0,0.8) !important; border: 2px solid rgba(56, 189, 248, 0.6) !important;" %}
+                    {% set card_bg = "background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=1000') center/cover !important; border: 1px solid #7dd3fc !important; box-shadow: 0 15px 35px rgba(14, 165, 233, 0.1) !important;" %}
                 {% else %}
-                    {# Opaque/Foggy background logic for other standard roles to reduce image overload #}
-                    {% set card_bg = "background: rgba(15, 23, 42, 0.95) !important; backdrop-filter: blur(10px) !important; box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important; border: 1px solid rgba(255, 255, 255, 0.1) !important;" %}
+                    {# Opaque logic for other standard roles #}
+                    {% set card_bg = "background: #ffffff !important;" %}
                 {% endif %}
 
                 <div class="timeline-item {% if loop.index % 2 == 0 %}timeline-alt{% endif %}">
