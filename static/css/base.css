@@ -623,6 +623,89 @@ footer {
     font-family: 'Inter', sans-serif;
 }
 
+/* =========================================================================
+   Aesthetic Page Headers - Global Tech/Ocean Parallax
+   ========================================================================= */
+.aesthetic-page-header {
+    position: relative;
+    width: 100vw;
+    height: 45vh;
+    min-height: 350px;
+    margin-left: calc(-50vw + 50%);
+    margin-top: 0;
+    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    text-align: center;
+    color: white;
+}
+
+.aesthetic-page-header::before {
+    content: ''; 
+    position: absolute; 
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(2, 132, 199, 0.5) 100%);
+    z-index: 1;
+}
+
+.aesthetic-page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0; height: 50px;
+    background: linear-gradient(to top, var(--color-background) 0%, transparent 100%);
+    z-index: 2;
+}
+
+.aesthetic-header-content {
+    position: relative;
+    z-index: 3;
+    padding: 3rem 4rem;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    max-width: 800px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    transform: translateY(30px);
+    opacity: 0;
+    animation: fadeUpHeader 0.8s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeUpHeader {
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.aesthetic-header-content h1 { 
+    font-size: 3.5rem; 
+    font-weight: 900; 
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #ffffff 0%, #7dd3fc 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+.aesthetic-header-content p { 
+    font-size: 1.2rem; 
+    color: #e0f2fe; 
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .aesthetic-header-content {
+        padding: 2rem;
+        width: 90%;
+    }
+    .aesthetic-header-content h1 { font-size: 2.5rem; }
+    .aesthetic-header-content p { font-size: 1rem; }
+}
+
 /* Footer Responsive */
 @media (max-width: 1024px) {
     .footer-grid {
