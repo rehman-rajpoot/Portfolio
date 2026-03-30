@@ -79,7 +79,7 @@
             {% for skill in skills %}
             <div class="skill-card">
                 <h4><i class="fas {{ skill.icon }} me-2"></i>{{ skill.category }}</h4>
-                {% for item in skill.items %}
+                {% for item in skill['items'] %}
                 <div class="skill-item">{{ item }}</div>
                 {% endfor %}
             </div>
