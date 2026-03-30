@@ -83,7 +83,7 @@ def chat_with_recruiter(user_message, history=None):
         return response.text.replace('Assistant: ', '').strip()
     except Exception as e:
         print(f"Gemini Chat Error: {e}")
-        return "I ran into an error connecting to my deep learning core."
+        return f"I ran into an error connecting to my deep learning core: {str(e)}"
 
 def generate_hardware_code(prompt):
     """
