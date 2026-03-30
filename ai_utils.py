@@ -36,7 +36,7 @@ def triage_contact_message(name, email, subject, message):
     """
     try:
         # Use gemini-1.5-flash for very fast JSON response
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(prompt)
         text = response.text.strip()
         
@@ -78,7 +78,7 @@ def chat_with_recruiter(user_message, history=None):
     prompt += f"User: {user_message}\nAssistant:"
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(prompt)
         return response.text.replace('Assistant: ', '').strip()
     except Exception as e:
@@ -103,7 +103,7 @@ def generate_hardware_code(prompt):
     
     try:
         # Use pro for complex code architecture
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel('gemini-pro')
         response = model.generate_content(full_prompt)
         return response.text.strip()
     except Exception as e:
