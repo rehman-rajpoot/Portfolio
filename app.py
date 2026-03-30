@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, jsonify, send_from_directory,
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message as MailMessage
 from database import db, User, SkillCategory, Skill, Project, Experience, Education, ContactMessage, Visitor
-from dotenv import load_dotenv
-load_dotenv()
 import os
+from dotenv import load_dotenv
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(basedir, '.env'))
 import json
 import threading
 import webbrowser
