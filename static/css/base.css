@@ -629,50 +629,57 @@ footer {
 .aesthetic-page-header {
     position: relative;
     width: 100vw;
-    height: 45vh;
-    min-height: 350px;
+    height: 35vh;
+    min-height: 280px;
     margin-left: calc(-50vw + 50%);
     margin-top: 0;
     margin-bottom: 4rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
+    background: #f8fafc;
+    overflow: hidden;
     text-align: center;
-    color: white;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.aesthetic-page-header::before {
+/* Animated gradient orbs */
+.aesthetic-page-header::before,
+.aesthetic-page-header::after {
     content: ''; 
     position: absolute; 
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(2, 132, 199, 0.5) 100%);
-    z-index: 1;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: drift 15s infinite alternate ease-in-out;
 }
-
+.aesthetic-page-header::before {
+    width: 400px; height: 400px;
+    background: rgba(14, 165, 233, 0.25);
+    top: -100px; left: -100px;
+}
 .aesthetic-page-header::after {
-    content: '';
-    position: absolute;
-    bottom: -1px; left: 0; right: 0; height: 50px;
-    background: linear-gradient(to top, var(--color-background) 0%, transparent 100%);
-    z-index: 2;
+    width: 500px; height: 500px;
+    background: rgba(56, 189, 248, 0.15);
+    bottom: -150px; right: -150px;
+    animation-delay: -5s;
 }
 
+/* Minimalist Clean Text Format */
 .aesthetic-header-content {
     position: relative;
     z-index: 3;
-    padding: 3rem 4rem;
-    backdrop-filter: blur(12px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 20px;
+    padding: 0 2rem;
     max-width: 800px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-    transform: translateY(30px);
+    transform: translateY(20px);
     opacity: 0;
     animation: fadeUpHeader 0.8s forwards cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes drift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
 }
 
 @keyframes fadeUpHeader {
@@ -680,29 +687,23 @@ footer {
 }
 
 .aesthetic-header-content h1 { 
-    font-size: 3.5rem; 
+    font-size: 3.8rem; 
     font-weight: 900; 
-    margin-bottom: 1rem;
-    background: linear-gradient(135deg, #ffffff 0%, #7dd3fc 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -1px;
+    margin-bottom: 0.8rem;
+    color: #0f172a;
+    letter-spacing: -2px;
 }
 
 .aesthetic-header-content p { 
-    font-size: 1.2rem; 
-    color: #e0f2fe; 
-    font-weight: 300;
+    font-size: 1.25rem; 
+    color: #475569; 
+    font-weight: 400;
     line-height: 1.6;
 }
 
 @media (max-width: 768px) {
-    .aesthetic-header-content {
-        padding: 2rem;
-        width: 90%;
-    }
-    .aesthetic-header-content h1 { font-size: 2.5rem; }
+    .aesthetic-header-content { width: 95%; }
+    .aesthetic-header-content h1 { font-size: 2.8rem; }
     .aesthetic-header-content p { font-size: 1rem; }
 }
 
