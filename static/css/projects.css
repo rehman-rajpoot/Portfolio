@@ -11,7 +11,7 @@
     font-size: 3rem;
     font-weight: 900;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -33,7 +33,7 @@
 
 .project-card {
     background: #FFFFFF;
-    border: 2px solid rgba(79, 70, 229, 0.1);
+    border: 2px solid rgba(52, 78, 65, 0.1);
     border-radius: 15px;
     padding: 2rem;
     transition: all 0.3s ease;
@@ -41,7 +41,7 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(79, 70, 229, 0.08);
+    box-shadow: 0 2px 10px rgba(52, 78, 65, 0.08);
 }
 
 .project-card::before {
@@ -51,7 +51,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(52, 78, 65, 0.1), transparent);
     transition: left 0.5s ease;
 }
 
@@ -60,15 +60,15 @@
 }
 
 .project-card:hover {
-    border-color: #4F46E5;
+    border-color: var(--color-primary);
     transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(79, 70, 229, 0.15);
+    box-shadow: 0 20px 50px rgba(52, 78, 65, 0.15);
 }
 
 .project-icon {
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -80,7 +80,7 @@
 
 .project-category {
     display: inline-block;
-    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
     color: #FFFFFF;
     padding: 0.4rem 1rem;
     border-radius: 20px;
@@ -123,9 +123,9 @@
 }
 
 .tech-badge {
-    background: rgba(79, 70, 229, 0.1);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    color: #4F46E5;
+    background: rgba(52, 78, 65, 0.1);
+    border: 1px solid rgba(52, 78, 65, 0.2);
+    color: var(--color-primary);
     padding: 0.4rem 0.8rem;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -138,7 +138,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: #4F46E5;
+    color: var(--color-primary);
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -148,7 +148,7 @@
 }
 
 .project-link:hover {
-    color: #4338CA;
+    color: var(--color-primary-dark);
     gap: 1rem;
 }
 
@@ -172,7 +172,7 @@
 
 .filter-btn {
     background: #F1F5F9;
-    border: 2px solid rgba(79, 70, 229, 0.1);
+    border: 2px solid rgba(52, 78, 65, 0.1);
     color: #4B5563;
     padding: 0.7rem 1.5rem;
     border-radius: 25px;
@@ -183,10 +183,10 @@
 
 .filter-btn:hover,
 .filter-btn.active {
-    background: #4F46E5;
-    border-color: #4F46E5;
+    background: var(--color-primary);
+    border-color: var(--color-primary);
     color: #FFFFFF;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 4px 15px rgba(52, 78, 65, 0.3);
 }
 /* Project Card Filtering Animation */
 .project-card {

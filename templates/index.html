@@ -17,7 +17,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url("{{ url_for('static', filename='images/aesthetic_bg.png') }}");
+    /* Using real breathtaking photo from unsplash of misty rainy forest */
+    background-image: url("https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=2500&auto=format&fit=crop");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -29,7 +30,7 @@
 .aesthetic-overlay {
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: linear-gradient(180deg, rgba(13, 22, 18, 0.7) 0%, rgba(30, 41, 59, 0.5) 100%);
+    background: linear-gradient(180deg, rgba(31, 48, 40, 0.5) 0%, rgba(15, 26, 20, 0.8) 100%);
     z-index: 1;
 }
 
@@ -55,7 +56,7 @@
     font-size: 1.1rem;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: #a7f3d0;
+    color: #A3B18A;
     margin-bottom: 0.5rem;
     font-style: italic;
 }
@@ -63,7 +64,7 @@
 .aesthetic-title {
     font-size: 4.5rem;
     font-weight: normal;
-    color: #f8fafc;
+    color: #FAFAF8;
     margin-bottom: 1.5rem;
     font-family: 'Playfair Display', 'Georgia', serif;
     letter-spacing: 1px;
@@ -73,7 +74,7 @@
 .aesthetic-subtitle {
     font-size: 1.25rem;
     line-height: 1.8;
-    color: #cbd5e1;
+    color: #e3e9e5;
     margin-bottom: 2.5rem;
     font-family: 'Inter', system-ui, sans-serif;
     font-weight: 300;
@@ -85,9 +86,9 @@
 }
 
 .btn-aesthetic-primary {
-    background: rgba(20, 40, 30, 0.85); 
-    border: 1px solid rgba(74, 222, 128, 0.4);
-    color: #f0fdf4;
+    background: rgba(88, 129, 87, 0.9); 
+    border: 1px solid rgba(163, 177, 138, 0.6);
+    color: #FAFAF8;
     padding: 0.8rem 2.5rem;
     border-radius: 4px;
     text-decoration: none;
@@ -97,14 +98,14 @@
     backdrop-filter: blur(5px);
 }
 .btn-aesthetic-primary:hover {
-    background: rgba(20, 40, 30, 1);
-    border-color: #4ade80;
+    background: rgba(88, 129, 87, 1);
+    border-color: #FAFAF8;
     transform: translateY(-2px);
     color: white;
 }
 
 .btn-aesthetic-secondary {
-    background: transparent;
+    background: rgba(31, 48, 40, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.5);
     color: white;
     padding: 0.8rem 2.5rem;
@@ -112,9 +113,10 @@
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
 }
 .btn-aesthetic-secondary:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.2);
     color: white;
 }
 
@@ -163,11 +165,11 @@
     <div class="aesthetic-overlay"></div>
     <div class="aesthetic-container">
         <div class="aesthetic-text">
-            <div class="aesthetic-greeting">Explorer. Thinker.</div>
+            <div class="aesthetic-greeting">Explorer. Designer. Builder.</div>
             <h1 class="aesthetic-title">Abdul Rehman</h1>
             <p class="aesthetic-subtitle">
-                An introverted overthinker finding clarity in complex engineering. <br><br>
-                I thrive in the quiet intersection of nature and deep logic—crafting embedded systems, hardware designs, and elegant software solutions from a peaceful corner of the world.
+                Finding absolute clarity in complex engineering. <br><br>
+                I thrive at the calm intersection of organic design and deep logic—crafting embedded systems, robust hardware architectures, and elegant software solutions that feel natural, resilient, and carefully considered.
             </p>
             <div class="aesthetic-buttons">
                 <a href="/projects" class="btn-aesthetic-primary">View My Work</a>
