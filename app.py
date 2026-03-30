@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify, send_from_directory, redirect, url_for, flash, session
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_mail import Mail, Message as MailMessage
-from database import db, User, SkillCategory, Skill, Project, Experience, Education, ContactMessage
+from database import db, User, SkillCategory, Skill, Project, Experience, Education, ContactMessage, Visitor
+from dotenv import load_dotenv
+load_dotenv()
 import os
 import json
 import threading
@@ -39,6 +41,9 @@ mail = Mail(app)
 
 # Initialize extensions
 db.init_app(app)
+with app.app_context():
+    db.create_all()
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'admin_login'
@@ -188,6 +193,22 @@ def get_skills_by_category():
         app.logger.error(f"Error in get_skills: {e}")
         return []
 
+@app.before_request
+def track_visitor():
+    try:
+        if request.path == '/' and not (current_user and current_user.is_authenticated):
+            ip = request.remote_addr
+            today = datetime.utcnow().date()
+            # Try to see if this IP visited today
+            # Cast timestamp to date by checking if its day matches today
+            v = Visitor.query.filter(Visitor.ip_address == ip).order_by(Visitor.timestamp.desc()).first()
+            if not v or v.timestamp.date() != today:
+                new_visit = Visitor(ip_address=ip, user_agent=request.user_agent.string)
+                db.session.add(new_visit)
+                db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+
 # ======================== PUBLIC ROUTES ========================
 
 @app.route('/')
@@ -286,7 +307,8 @@ def admin_home():
         'total_education': Education.query.count(),
         'total_skills': Skill.query.count(),
         'total_messages': ContactMessage.query.count(),
-        'unread_messages': ContactMessage.query.filter_by(is_read=False).count()
+        'unread_messages': ContactMessage.query.filter_by(is_read=False).count(),
+        'total_visitors': Visitor.query.count()
     }
     
     projects_list = Project.query.order_by(Project.order).all()

@@ -6,68 +6,276 @@
 
 {% block content %}
 
-<!-- Hero Section - Minimalist Clean Design -->
-<section class="hero-section">
-    <div class="hero-container">
-        <div class="hero-content">
-            <div class="hero-text-wrapper">
-                <div class="hero-greeting">
-                    <span class="accent-dot"></span>
-                    <p>Welcome to my portfolio</p>
-                </div>
-                
-                <h1 class="hero-name">
-                    <span class="name-first">Abdul</span>
-                    <span class="name-last">Rehman</span>
-                </h1>
-                
-                <p class="hero-role">Electrical Engineer & IoT Developer</p>
-                
-                <p class="hero-description">
-                    I transform ideas into intelligent solutions at the intersection of hardware and software. Specializing in embedded systems, IoT, and innovative engineering with a passion for R&D.
-                </p>
+<!-- Ultra Modern Glassmorphism Hero Section -->
+<style>
+.wow-hero {
+    position: relative;
+    width: 100vw;
+    min-height: calc(100vh - 80px); /* Account for navbar */
+    margin-left: calc(-50vw + 50%); /* Break out of container */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle at 70% 50%, #1e1e2f 0%, #08080c 100%);
+    overflow: hidden;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    padding: 2rem;
+    margin-bottom: 4rem;
+}
+/* Blurred background glowing orbs */
+.wow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    z-index: 0;
+}
+.wow-orb-1 {
+    width: 500px;
+    height: 500px;
+    background: rgba(79, 70, 229, 0.25);
+    top: -10%; left: -5%;
+    animation: floatOrb 10s infinite ease-in-out alternate;
+}
+.wow-orb-2 {
+    width: 600px;
+    height: 600px;
+    background: rgba(249, 115, 22, 0.2);
+    bottom: -20%; right: -10%;
+    animation: floatOrb 12s infinite ease-in-out alternate-reverse;
+}
+@keyframes floatOrb {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(50px) scale(1.1); }
+}
 
-                <div class="hero-cta">
-                    <a href="/projects" class="cta-primary">
-                        View My Work
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="#contact" class="cta-secondary">
-                        Get In Touch
-                        <i class="fas fa-message"></i>
-                    </a>
-                </div>
+.wow-hero-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.wow-text-content {
+    color: white;
+}
+.wow-greeting {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    font-size: 0.95rem;
+    color: #e2e8f0;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.wow-title {
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+.wow-subtitle {
+    font-size: 1.2rem;
+    color: #94a3b8;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 90%;
+}
+.wow-buttons {
+    display: flex;
+    gap: 1.5rem;
+}
+.wow-btn-primary {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.wow-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.6);
+    color: white;
+}
+.wow-btn-secondary {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: white;
+    padding: 1rem 2.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.wow-btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
+    color: white;
+}
+
+.wow-visuals {
+    position: relative;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+.wow-3d-asset {
+    width: 100%;
+    max-width: 550px;
+    filter: drop-shadow(0 30px 40px rgba(0,0,0,0.6));
+    animation: floatAsset 8s infinite ease-in-out;
+}
+@keyframes floatAsset {
+    0%   { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
+    50%  { transform: translateY(-25px) rotateX(-2deg) rotateY(2deg); }
+    100% { transform: translateY(0) rotateX(2deg) rotateY(-2deg); }
+}
+
+.wow-glass-tag {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 1rem 1.5rem;
+    border-radius: 16px;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 20px 40px -10px rgba(0,0,0,0.4);
+    animation: floatTag 6s infinite ease-in-out;
+}
+@keyframes floatTag {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0); }
+}
+.wow-tag-1 { top: 20%; left: -5%; animation-delay: 0s; }
+.wow-tag-2 { bottom: 25%; right: -5%; animation-delay: 1.5s; }
+.wow-tag-3 { bottom: 35%; left: 5%; animation-delay: 3s; }
+
+.wow-glass-tag i {
+    background: linear-gradient(135deg, #f97316 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.25rem;
+}
+
+.wow-stats-row {
+    margin-top: 3.5rem; 
+    display: flex; 
+    gap: 3rem; 
+    color: #94a3b8; 
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 2rem;
+}
+.wow-stat-item h4 {
+    color: white; 
+    font-size: 2rem; 
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+}
+.wow-stat-item span {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+@media (max-width: 992px) {
+    .wow-hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .wow-buttons {
+        justify-content: center;
+    }
+    .wow-stats-row {
+        justify-content: center;
+    }
+    .wow-title {
+        font-size: 3.5rem;
+    }
+    .wow-visuals {
+        height: 400px;
+    }
+    .wow-tag-1 { top: 5%; left: 0; }
+    .wow-tag-2 { bottom: 5%; right: 0; }
+    .wow-tag-3 { display: none; }
+}
+</style>
+
+<section class="wow-hero">
+    <div class="wow-orb wow-orb-1"></div>
+    <div class="wow-orb wow-orb-2"></div>
+    
+    <div class="wow-hero-container">
+        <div class="wow-text-content">
+            <div class="wow-greeting"><span style="color:#f97316; margin-right:5px;">●</span> Welcome to my digital ecosystem</div>
+            <h1 class="wow-title">Abdul<br>Rehman</h1>
+            <p class="wow-subtitle">Electrical Engineer & IoT Developer crafting high-fidelity hardware, embedded circuits, and full-stack digital solutions.</p>
+            <div class="wow-buttons">
+                <a href="/projects" class="wow-btn-primary">View Portfolio <i class="fas fa-arrow-right"></i></a>
+                <a href="/contact" class="wow-btn-secondary">Let's Talk <i class="fas fa-comment"></i></a>
             </div>
-
-            <div class="hero-image-wrapper">
-                <div class="image-card">
-                    <img src="/images/profile/Profile pic.jpg" 
-                         alt="Abdul Rehman" class="hero-profile-img">
-                    <div class="image-glow"></div>
+            
+            <div class="wow-stats-row">
+                <div class="wow-stat-item">
+                    <h4>15+</h4>
+                    <span>Hardware Designs</span>
+                </div>
+                <div class="wow-stat-item">
+                    <h4>4+</h4>
+                    <span>Years IoT Exp.</span>
+                </div>
+                <div class="wow-stat-item">
+                    <h4>10+</h4>
+                    <span>Live Projects</span>
                 </div>
             </div>
         </div>
-
-        <div class="hero-stats">
-            <div class="stat-badge">
-                <span class="stat-value">10+</span>
-                <span class="stat-text">Projects</span>
+        
+        <div class="wow-visuals">
+            <img src="/static/images/hero_3d.png" alt="3D Hero Asset" class="wow-3d-asset">
+            
+            <div class="wow-glass-tag wow-tag-1">
+                <i class="fas fa-microchip"></i>
+                Embedded Systems
             </div>
-            <div class="stat-badge">
-                <span class="stat-value">4+</span>
-                <span class="stat-text">Years IoT</span>
+            <div class="wow-glass-tag wow-tag-2">
+                <i class="fas fa-code"></i>
+                Full-Stack Solutions
             </div>
-            <div class="stat-badge">
-                <span class="stat-value">25+</span>
-                <span class="stat-text">Skills</span>
+            <div class="wow-glass-tag wow-tag-3">
+                <i class="fas fa-layer-group"></i>
+                IoT Architecture
             </div>
         </div>
-    </div>
-</section>
-
-<!-- Stats -->
-<section class="stats-section-container">
-    <div class="container">
     </div>
 </section>
 

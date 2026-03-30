@@ -51,6 +51,13 @@
                 <i class="fas fa-arrow-right"></i> Manage
             </a>
         </div>
+        
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-value">{{ stats.total_visitors }}</div>
+            <div class="stat-label">Total Visitors</div>
+            <span style="visibility:hidden; font-size:0.85rem; margin-top:0.5rem;"><i class="fas fa-arrow-right"></i></span>
+        </div>
 
         <div class="stat-card" style="{% if stats.unread_messages > 0 %}border-color: #EF4444;{% endif %}">
             <i class="fas fa-envelope" style="{% if stats.unread_messages > 0 %}color:#EF4444;{% endif %}"></i>
