@@ -14,152 +14,287 @@
     </div>
 </div>
 
-<!-- Experience Timeline -->
-<section class="experience-timeline">
-    <div class="container">
-        <div class="timeline-container">
-            {% for exp in experiences %}
-            <div class="timeline-item {% if loop.index % 2 == 0 %}timeline-alt{% endif %}">
-                <div class="timeline-content">
-                    <div class="experience-badge">
-                        <span class="exp-type">Experience</span>
+<style>
+/* Automation Aesthetic Upgrade */
+.automation-wrapper {
+    position: relative;
+    padding: 6rem 0;
+    margin: -1rem 0;
+    overflow: hidden;
+    background: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2500') center/cover fixed;
+}
+.automation-wrapper::before {
+    content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+    /* Dark grid tech overlay */
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(2, 132, 199, 0.4) 100%);
+    z-index: 1;
+}
+
+/* Floating Automation Gears / Tech nodes */
+.bg-gears {
+    position: absolute; top:0; left:0; width: 100%; height: 100%;
+    z-index: 1; pointer-events:none; overflow: hidden;
+}
+.bg-gears i {
+    position: absolute; color: rgba(56, 189, 248, 0.12); font-size: 15rem;
+    animation: spin-gear 40s linear infinite;
+}
+@keyframes spin-gear { 100% { transform: rotate(360deg); } }
+.gear-1 { top: 5%; left: -5%; animation-duration: 45s; }
+.gear-2 { top: 35%; right: -5%; font-size: 24rem; animation-direction: reverse; color: rgba(14, 165, 233, 0.08); }
+.gear-3 { bottom: 15%; left: 30%; font-size: 15rem; animation-duration: 35s; }
+.gear-4 { top: 65%; right: 20%; font-size: 10rem; animation-duration: 25s; animation-direction: reverse; color: rgba(56, 189, 248, 0.15);}
+.gear-5 { bottom: -5%; right: 5%; font-size: 30rem; animation-duration: 55s; color: rgba(15, 23, 42, 0.5);}
+
+.automation-wrapper .container { position: relative; z-index: 2; }
+
+/* Timeline UI overriding */
+.timeline-content {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(56, 189, 248, 0.25) !important;
+    backdrop-filter: blur(16px);
+    border-radius: 20px !important;
+    color: #e2e8f0;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease !important;
+    padding: 2.5rem !important;
+}
+.timeline-item.timeline-alt .timeline-content {
+    text-align: right; /* Maintain standard */
+}
+.timeline-content:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 20px 50px rgba(56, 189, 248, 0.4) !important;
+    border-color: #38bdf8 !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+}
+.timeline-marker .marker-dot { background: #38bdf8 !important; box-shadow: 0 0 20px #38bdf8 !important; border: 4px solid #0f172a !important; width: 20px !important; height: 20px !important; left: -10px !important; transition: transform 0.3s;}
+.timeline-content:hover ~ .timeline-marker .marker-dot { transform: scale(1.4); }
+
+.timeline-container::before { background: rgba(56, 189, 248, 0.25) !important; width: 4px !important; }
+.timeline-content h3 { color: #ffffff !important; font-size: 1.8rem !important; font-weight: 900 !important; margin-bottom: 0.5rem !important; letter-spacing: -0.5px;}
+
+.experience-meta .company, .experience-meta .period { color: #bae6fd !important; font-size: 0.95rem; display: inline-block; margin-right: 1rem;}
+.experience-meta i { color: #38bdf8; }
+
+.experience-description { color: #e0f2fe !important; font-size: 1.1rem !important; line-height: 1.7 !important; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1.5rem 0 !important; margin: 1.5rem 0 !important; }
+.responsibilities h4 { color: #38bdf8 !important; margin-bottom: 1rem !important; font-size: 1.2rem !important; font-weight: 700!important;}
+.responsibilities li { color: #cbd5e1 !important; margin-bottom: 0.6rem; font-size: 0.95rem; }
+.skill-tag { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; padding: 0.5rem 1rem !important; margin: 0.2rem !important; border-radius: 20px !important; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;}
+.skill-tag:hover { background: #38bdf8 !important; color: #0f172a !important; transform: scale(1.1) translateY(-2px); }
+.experience-badge .exp-type { background: #0284c7 !important; font-weight: 700 !important; }
+
+/* Education UI overriding */
+.education-section { background: transparent !important; margin-top: 6rem; padding-top: 4rem; border-top: 1px solid rgba(255,255,255,0.1);}
+.education-section h2 { text-align: center; color: white !important; font-size: 3.5rem !important; font-weight: 900; margin-bottom: 4rem; text-transform: uppercase; letter-spacing: 2px;}
+
+.education-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+    backdrop-filter: blur(15px);
+    border-radius: 20px !important;
+    padding: 3rem 2.5rem !important;
+    color: #e2e8f0;
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    position: relative;
+    overflow: hidden;
+}
+.education-card::before {
+    content:''; position: absolute; top:0; left:0; width:100%; height:5px;
+    background: linear-gradient(90deg, #38bdf8, #0ea5e9);
+}
+.education-card:hover { transform: translateY(-10px) !important; border-color: #38bdf8 !important; box-shadow: 0 20px 50px rgba(56, 189, 248, 0.3) !important; background: rgba(255, 255, 255, 0.06) !important;}
+
+.edu-icon { width: 80px !important; height: 80px !important; background: rgba(56, 189, 248, 0.1) !important; border: 2px solid rgba(56, 189, 248, 0.4)!important; border-radius: 50% !important; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto !important; box-shadow: 0 0 20px rgba(56, 189, 248, 0.3) !important;}
+.edu-icon i { color: #38bdf8 !important; font-size: 2.2rem !important; }
+.education-card h3 { color: white !important; font-size: 1.8rem !important; font-weight: 800 !important; margin-bottom: 0.5rem !important; text-align: center;}
+.edu-field { color: #38bdf8 !important; font-weight: 700 !important; text-align: center; font-size: 1.15rem; margin-bottom: 1rem !important;}
+.edu-school, .edu-location, .edu-period { color: #cbd5e1 !important; text-align: center; margin-bottom: 0.3rem !important; font-size: 0.95rem; }
+.edu-details { border-top: 1px solid rgba(255,255,255,0.1) !important; margin-top: 2rem !important; padding-top: 2rem !important; }
+.edu-details p { color: #f1f5f9 !important; margin-bottom: 0.6rem !important; }
+.edu-details strong { color: #38bdf8 !important; font-weight: 700 !important;}
+.subject-list li { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; padding: 0.4rem 1rem !important; border-radius: 20px !important; margin: 0.3rem; display: inline-block; font-size: 0.85rem;}
+
+/* Competencies Override */
+.skills-summary { background: transparent !important; border-top: 1px solid rgba(255,255,255,0.1) !important; padding-top: 5rem;}
+.skills-summary h2 { text-align: center; color: white !important; font-size: 3.5rem !important; margin-bottom: 4rem; text-transform: uppercase; font-weight: 900;}
+.competency-group {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(56, 189, 248, 0.25) !important;
+    backdrop-filter: blur(15px);
+    border-radius: 20px !important;
+    padding: 2.5rem !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+    transition: all 0.4s ease;
+}
+.competency-group:hover { transform: translateY(-5px); border-color: #38bdf8 !important; box-shadow: 0 15px 40px rgba(56, 189, 248, 0.3) !important;}
+.competency-group h3 { color: #38bdf8 !important; font-weight: 800 !important; font-size: 1.4rem !important; margin-bottom: 1.5rem !important; border-bottom: 2px solid rgba(56, 189, 248, 0.2) !important; padding-bottom: 0.8rem;}
+.skill-item { background: rgba(56, 189, 248, 0.1) !important; border: 1px solid rgba(56, 189, 248, 0.3) !important; color: #e0f2fe !important; border-radius: 20px !important;}
+
+/* CTA */
+.experience-cta { background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(15, 23, 42, 0.5) 100%) !important; border-top: 1px solid rgba(56, 189, 248, 0.3) !important; margin-bottom: -5rem !important;}
+.experience-cta h2 { color: white !important; font-weight: 900 !important; font-size: 3.5rem;}
+.experience-cta p { color: #e0f2fe !important; font-size: 1.25rem; font-weight: 300;}
+</style>
+
+<div class="automation-wrapper">
+    <!-- Spinning Automation Gears Background Elements -->
+    <div class="bg-gears">
+        <i class="fas fa-cog gear gear-1"></i>
+        <i class="fas fa-cogs gear gear-2"></i>
+        <i class="fas fa-microchip gear gear-3"></i>
+        <i class="fas fa-cog gear gear-4"></i>
+        <i class="fas fa-robot gear gear-5"></i>
+    </div>
+
+    <!-- Experience Timeline -->
+    <section class="experience-timeline">
+        <div class="container">
+            <div class="timeline-container">
+                {% for exp in experiences %}
+                <div class="timeline-item {% if loop.index % 2 == 0 %}timeline-alt{% endif %}">
+                    <div class="timeline-content">
+                        <div class="experience-badge">
+                            <span class="exp-type">Experience</span>
+                        </div>
+                        
+                        <h3>{{ exp.title }}</h3>
+                        
+                        <div class="experience-meta">
+                            <p class="company">
+                                <i class="fas fa-building"></i> {{ exp.company }}
+                            </p>
+                            <p class="period">
+                                <i class="fas fa-calendar"></i> {{ exp.period }}
+                            </p>
+                        </div>
+                        
+                        <p class="experience-description">{{ exp.description }}</p>
+                        
+                        <div class="responsibilities">
+                            <h4><i class="fas fa-tasks"></i> Key Responsibilities</h4>
+                            <ul>
+                                {% for resp in exp.responsibilities %}
+                                <li>{{ resp }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        
+                        <div class="experience-skills">
+                            {% for skill in exp.skills %}
+                            <span class="skill-tag">{{ skill }}</span>
+                            {% endfor %}
+                        </div>
                     </div>
                     
-                    <h3>{{ exp.title }}</h3>
-                    
-                    <div class="experience-meta">
-                        <p class="company">
-                            <i class="fas fa-building"></i> {{ exp.company }}
-                        </p>
-                        <p class="period">
-                            <i class="fas fa-calendar"></i> {{ exp.period }}
-                        </p>
+                    <div class="timeline-marker">
+                        <div class="marker-dot"></div>
                     </div>
-                    
-                    <p class="experience-description">{{ exp.description }}</p>
-                    
-                    <div class="responsibilities">
-                        <h4><i class="fas fa-tasks"></i> Key Responsibilities</h4>
-                        <ul>
-                            {% for resp in exp.responsibilities %}
-                            <li>{{ resp }}</li>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Summary -->
+    <section class="education-section">
+        <div class="container">
+            <h2>Education Architecture</h2>
+            
+            <div class="education-grid">
+                {% for edu in education %}
+                <div class="education-card">
+                    <div class="edu-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>{{ edu.level }}</h3>
+                    <p class="edu-field">{{ edu.field }}</p>
+                    <p class="edu-school">{{ edu.school }}</p>
+                    <p class="edu-location">{{ edu.location }}</p>
+                    <p class="edu-period">{{ edu.period }}</p>
+                    <div class="edu-details">
+                        {% if edu.grade %}<p><strong>Grade:</strong> {{ edu.grade }}</p>{% endif %}
+                        {% if edu.details.get('eqf_level') %}<p><strong>Level:</strong> {{ edu.details.get('eqf_level') }}</p>{% endif %}
+                        {% if edu.details.get('credits') %}<p><strong>Credits:</strong> {{ edu.details.get('credits') }}</p>{% endif %}
+                        {% if edu.details.get('subjects') %}
+                        <p><strong>Subjects:</strong></p>
+                        <ul class="subject-list">
+                            {% for subj in edu.details.get('subjects') %}
+                            <li>{{ subj }}</li>
                             {% endfor %}
                         </ul>
-                    </div>
-                    
-                    <div class="experience-skills">
-                        {% for skill in exp.skills %}
-                        <span class="skill-tag">{{ skill }}</span>
-                        {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
-                
-                <div class="timeline-marker">
-                    <div class="marker-dot"></div>
-                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Education Summary -->
-<section class="education-section">
-    <div class="container">
-        <h2>Education</h2>
-        
-        <div class="education-grid">
-            {% for edu in education %}
-            <div class="education-card">
-                <div class="edu-icon">
-                    <i class="fas fa-graduation-cap"></i>
+    <!-- Skills Summary -->
+    <section class="skills-summary">
+        <div class="container">
+            <h2>Core Modalities</h2>
+            
+            <div class="competencies-grid">
+                <div class="competency-group">
+                    <h3><i class="fas fa-code"></i> Software & Tools</h3>
+                    <div class="skills-list">
+                        <span class="skill-item">MATLAB</span>
+                        <span class="skill-item">Proteus</span>
+                        <span class="skill-item">Arduino IDE</span>
+                        <span class="skill-item">AutoCAD</span>
+                        <span class="skill-item">Microsoft Office</span>
+                    </div>
                 </div>
-                <h3>{{ edu.level }}</h3>
-                <p class="edu-field">{{ edu.field }}</p>
-                <p class="edu-school">{{ edu.school }}</p>
-                <p class="edu-location">{{ edu.location }}</p>
-                <p class="edu-period">{{ edu.period }}</p>
-                <div class="edu-details">
-                    {% if edu.grade %}<p><strong>Grade:</strong> {{ edu.grade }}</p>{% endif %}
-                    {% if edu.details.get('eqf_level') %}<p><strong>Level:</strong> {{ edu.details.get('eqf_level') }}</p>{% endif %}
-                    {% if edu.details.get('credits') %}<p><strong>Credits:</strong> {{ edu.details.get('credits') }}</p>{% endif %}
-                    {% if edu.details.get('subjects') %}
-                    <p><strong>Subjects:</strong></p>
-                    <ul class="subject-list">
-                        {% for subj in edu.details.get('subjects') %}
-                        <li>{{ subj }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-</section>
 
-<!-- Skills Summary -->
-<section class="skills-summary">
-    <div class="container">
-        <h2>Technical Competencies</h2>
-        
-        <div class="competencies-grid">
-            <div class="competency-group">
-                <h3><i class="fas fa-code"></i> Software & Tools</h3>
-                <div class="skills-list">
-                    <span class="skill-item">MATLAB</span>
-                    <span class="skill-item">Proteus</span>
-                    <span class="skill-item">Arduino IDE</span>
-                    <span class="skill-item">AutoCAD</span>
-                    <span class="skill-item">Microsoft Office</span>
+                <div class="competency-group">
+                    <h3><i class="fas fa-programming"></i> Programming</h3>
+                    <div class="skills-list">
+                        <span class="skill-item">C++</span>
+                        <span class="skill-item">Python</span>
+                        <span class="skill-item">HTML/CSS</span>
+                        <span class="skill-item">OOP</span>
+                        <span class="skill-item">Microcontroller Programming</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="competency-group">
-                <h3><i class="fas fa-programming"></i> Programming</h3>
-                <div class="skills-list">
-                    <span class="skill-item">C++</span>
-                    <span class="skill-item">Python</span>
-                    <span class="skill-item">HTML/CSS</span>
-                    <span class="skill-item">OOP</span>
-                    <span class="skill-item">Microcontroller Programming</span>
+                <div class="competency-group">
+                    <h3><i class="fas fa-microchip"></i> Hardware</h3>
+                    <div class="skills-list">
+                        <span class="skill-item">Arduino MEGA</span>
+                        <span class="skill-item">ESP8266</span>
+                        <span class="skill-item">Atmega32</span>
+                        <span class="skill-item">PCB Design</span>
+                        <span class="skill-item">Circuit Analysis</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="competency-group">
-                <h3><i class="fas fa-microchip"></i> Hardware</h3>
-                <div class="skills-list">
-                    <span class="skill-item">Arduino MEGA</span>
-                    <span class="skill-item">ESP8266</span>
-                    <span class="skill-item">Atmega32</span>
-                    <span class="skill-item">PCB Design</span>
-                    <span class="skill-item">Circuit Analysis</span>
-                </div>
-            </div>
-
-            <div class="competency-group">
-                <h3><i class="fas fa-users"></i> Professional</h3>
-                <div class="skills-list">
-                    <span class="skill-item">Team Leadership</span>
-                    <span class="skill-item">Time Management</span>
-                    <span class="skill-item">Problem Solving</span>
-                    <span class="skill-item">Communication</span>
-                    <span class="skill-item">Customer Service</span>
+                <div class="competency-group">
+                    <h3><i class="fas fa-users"></i> Professional</h3>
+                    <div class="skills-list">
+                        <span class="skill-item">Team Leadership</span>
+                        <span class="skill-item">Time Management</span>
+                        <span class="skill-item">Problem Solving</span>
+                        <span class="skill-item">Communication</span>
+                        <span class="skill-item">Customer Service</span>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- CTA Section -->
-<section class="experience-cta">
-    <div class="container">
-        <h2>Let's Collaborate</h2>
-        <p>Interested in working together? I'm open to discussing new opportunities and projects.</p>
-        <a href="/contact" class="btn btn-explore">
-            <i class="fas fa-envelope me-2"></i> Get In Touch
-        </a>
-    </div>
-</section>
+    <!-- CTA Section -->
+    <section class="experience-cta">
+        <div class="container">
+            <h2>Start Engineering Today</h2>
+            <p>Interested in deploying robust architecture or discussing collaborative projects?</p>
+            <a href="/contact" class="btn btn-explore">
+                <i class="fas fa-envelope me-2"></i> Get In Touch
+            </a>
+        </div>
+    </section>
+</div>
 
 {% endblock %}
