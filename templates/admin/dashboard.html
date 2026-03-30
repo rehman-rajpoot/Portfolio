@@ -59,8 +59,8 @@
             <span style="visibility:hidden; font-size:0.85rem; margin-top:0.5rem;"><i class="fas fa-arrow-right"></i></span>
         </div>
 
-        <div class="stat-card" style="{% if stats.unread_messages > 0 %}border-color: #EF4444;{% endif %}">
-            <i class="fas fa-envelope" style="{% if stats.unread_messages > 0 %}color:#EF4444;{% endif %}"></i>
+        <div class="stat-card" {% if stats.unread_messages > 0 %}style="border-color: #EF4444;"{% endif %}>
+            <i class="fas fa-envelope" {% if stats.unread_messages > 0 %}style="color:#EF4444;"{% endif %}></i>
             <div class="stat-value">{{ stats.total_messages }}</div>
             <div class="stat-label">Messages
                 {% if stats.unread_messages > 0 %}
@@ -201,7 +201,7 @@
                     </thead>
                     <tbody>
                         {% for msg in recent_messages %}
-                        <tr style="{% if not msg.is_read %}background:#EFF6FF; font-weight:600;{% endif %}">
+                        <tr {% if not msg.is_read %}style="background:#EFF6FF; font-weight:600;"{% endif %}>
                             <td>
                                 {% if not msg.is_read %}
                                 <span style="width:9px;height:9px;background:#4F46E5;border-radius:50%;display:inline-block;"></span>
