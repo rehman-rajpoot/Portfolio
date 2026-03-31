@@ -11,10 +11,10 @@ import threading
 import webbrowser
 import requests as http_requests
 import ai_utils
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
-
-# Configuration
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_host=1)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///portfolio.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-change-this-in-production')

@@ -61,12 +61,11 @@ def triage_contact_message(name, email, subject, message):
         response = model.generate_content(prompt)
         text = response.text.strip()
         
-        # Clean potential markdown formatting if model wraps it in ```json
-        if text.startswith('```'):
-            text = text.split('\n', 1)[1]
-            if text.endswith('```'):
-                text = text.rsplit('\n', 1)[0]
-        
+        import re
+        match = re.search(r'\{.*\}', text, re.DOTALL)
+        if match:
+            text = match.group(0)
+            
         content = json.loads(text.strip())
         return content
     except Exception as e:
