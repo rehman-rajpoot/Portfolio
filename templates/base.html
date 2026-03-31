@@ -15,14 +15,14 @@
     <meta property="og:url" content="{{ request.url }}">
     <meta property="og:title" content="{% block og_title %}Abdul Rehman | R&D Engineering Portfolio{% endblock %}">
     <meta property="og:description" content="{% block og_description %}Portfolio of Abdul Rehman - Electrical Engineering Student and Computer Engineering Specialist. Expert in circuit design, embedded systems, IoT, and Web Development.{% endblock %}">
-    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.jpg', _external=True) }}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
     
     <!-- Twitter Meta Tags -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="{{ request.url }}">
     <meta property="twitter:title" content="{% block twitter_title %}Abdul Rehman | R&D Engineering Portfolio{% endblock %}">
     <meta property="twitter:description" content="{% block twitter_description %}Portfolio of Abdul Rehman - Electrical Engineering Student and Computer Engineering Specialist. Expert in circuit design, embedded systems, IoT, and Web Development.{% endblock %}">
-    <meta property="twitter:image" content="{{ url_for('static', filename='images/og-image.jpg', _external=True) }}">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
 
     <!-- Canonical URL -->
     <link rel="canonical" href="{{ request.base_url }}" />
@@ -266,11 +266,36 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: text, history: chatHistory.slice(-6) })
                 });
-                const data = await response.json();
-                document.getElementById('ai-loading').remove();
-                appendMessage(data.reply, 'ai-msg');
+
+                if(document.getElementById('ai-loading')) document.getElementById('ai-loading').remove();
+                
+                const aiMsg = document.createElement('div');
+                aiMsg.className = 'ai-msg';
+                msgBox.appendChild(aiMsg);
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+                let fullReply = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunkStr = decoder.decode(value, {stream: true});
+                    const lines = chunkStr.split('\n\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.substring(6));
+                                fullReply += data.chunk;
+                                aiMsg.innerHTML = fullReply.replace('Assistant: ', '').replace(/\n/g, '<br>');
+                                msgBox.scrollTop = msgBox.scrollHeight;
+                            } catch(e) {}
+                        }
+                    }
+                }
                 chatHistory.push({ role: 'user', content: text });
-                chatHistory.push({ role: 'assistant', content: data.reply });
+                chatHistory.push({ role: 'assistant', content: fullReply });
             } catch (err) {
                 if(document.getElementById('ai-loading')) document.getElementById('ai-loading').remove();
                 appendMessage('Connection error. Server may be offline.', 'ai-msg');

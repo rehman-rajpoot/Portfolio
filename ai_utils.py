@@ -106,6 +106,42 @@ def chat_with_recruiter(user_message, history=None):
         print(f"Gemini Chat Error: {e}")
         return f"I ran into an error connecting to my deep learning core: {str(e)}"
 
+def chat_with_recruiter_stream(user_message, history=None):
+    """
+    Role 1: Recruiter Assistant Chatbot (Streaming). Yields chunks of text.
+    """
+    if not init_gemini():
+        yield "I am currently offline. Please configure the GEMINI_API_KEY in your .env file to activate me!"
+        return
+    
+    system_instruction = """
+    You are the official AI representative for Abdul Rehman's Portfolio. 
+    Abdul is an expert Computer Engineer with experience in Embedded Systems (Arduino, ESP32), Python, C++, PCB Design, Web Development (Flask/React), and Data Structures.
+    He has worked as an Open Contract Electrician handling 3-phase wiring and motors. He has strong problem-solving skills.
+    
+    Your goal is to answer questions enthusiastically and professionally on his behalf. Be concise, friendly, and always try to frame Abdul as an excellent candidate or engineer. Limit your responses to 2-3 short sentences.
+    """
+    
+    prompt = f"System Rules:\n{system_instruction}\n\n"
+    
+    if history:
+        for item in history:
+            role = item.get("role", "user")
+            content = item.get("content", "")
+            prompt += f"{role.capitalize()}: {content}\n"
+            
+    prompt += f"User: {user_message}\nAssistant:"
+
+    try:
+        model = genai.GenerativeModel(get_model_name())
+        response = model.generate_content(prompt, stream=True)
+        for chunk in response:
+            if chunk.text:
+                yield chunk.text
+    except Exception as e:
+        print(f"Gemini Chat Streaming Error: {e}")
+        yield f"I ran into an error connecting to my deep learning core: {str(e)}"
+
 def generate_hardware_code(prompt):
     """
     Role 3: Hardware Code Generator Demonstration.
