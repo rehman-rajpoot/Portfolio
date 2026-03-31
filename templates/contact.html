@@ -152,6 +152,11 @@
             messageDiv.textContent = '✗ Error sending message. Please try again.';
             messageDiv.className = 'form-message error';
             messageDiv.style.display = 'block';
+            
+            // Hide error message after max 1 second
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 1000);
         } finally {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalHtml;
