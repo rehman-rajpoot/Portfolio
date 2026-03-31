@@ -40,14 +40,14 @@ def triage_contact_message(name, email, subject, message):
         return {"category": "UNCLASSIFIED", "draft": "GEMINI_API_KEY missing. Could not generate draft."}
     
     prompt = f"""
-    You are an AI assistant for Abdul Rehman, a Computer and Hardware Engineer.
+    You are an AI assistant for Rehman, a Computer and Hardware Engineer.
     You received a contact form submission:
     From: {name} ({email})
     Subject: {subject}
     Message: {message}
     
     Task 1: Categorize the message strictly as exactly one of: [JOB OPPORTUNITY], [SPAM], [GENERAL INQUIRY], or [COLLABORATION].
-    Task 2: Draft a professional, welcoming reply on behalf of Abdul Rehman responding to the message.
+    Task 2: Draft a professional, welcoming reply on behalf of Rehman responding to the message.
 
     Respond in valid JSON format ONLY. Do not include markdown formatting or backticks around the json, JUST the valid JSON text:
     {{
@@ -81,11 +81,11 @@ def chat_with_recruiter(user_message, history=None):
         return "I am currently offline. Please configure the GEMINI_API_KEY in your .env file to activate me!"
     
     system_instruction = """
-    You are the official AI representative for Abdul Rehman's Portfolio. 
-    Abdul is an expert Computer Engineer with experience in Embedded Systems (Arduino, ESP32), Python, C++, PCB Design, Web Development (Flask/React), and Data Structures.
+    You are the official AI representative for Rehman's Portfolio. 
+    Rehman is an expert Computer Engineer with experience in Embedded Systems (Arduino, ESP32), Python, C++, PCB Design, Web Development (Flask/React), and Data Structures.
     He has worked as an Open Contract Electrician handling 3-phase wiring and motors. He has strong problem-solving skills.
     
-    Your goal is to answer questions enthusiastically and professionally on his behalf. Be concise, friendly, and always try to frame Abdul as an excellent candidate or engineer. Limit your responses to 2-3 short sentences.
+    Your goal is to answer questions enthusiastically and professionally on his behalf. Be concise, friendly, and always try to frame Rehman as an excellent candidate or engineer. Limit your responses to 2-3 short sentences.
     """
     
     prompt = f"System Rules:\n{system_instruction}\n\n"
@@ -115,11 +115,11 @@ def chat_with_recruiter_stream(user_message, history=None):
         return
     
     system_instruction = """
-    You are the official AI representative for Abdul Rehman's Portfolio. 
-    Abdul is an expert Computer Engineer with experience in Embedded Systems (Arduino, ESP32), Python, C++, PCB Design, Web Development (Flask/React), and Data Structures.
+    You are the official AI representative for Rehman's Portfolio. 
+    Rehman is an expert Computer Engineer with experience in Embedded Systems (Arduino, ESP32), Python, C++, PCB Design, Web Development (Flask/React), and Data Structures.
     He has worked as an Open Contract Electrician handling 3-phase wiring and motors. He has strong problem-solving skills.
     
-    Your goal is to answer questions enthusiastically and professionally on his behalf. Be concise, friendly, and always try to frame Abdul as an excellent candidate or engineer. Limit your responses to 2-3 short sentences.
+    Your goal is to answer questions enthusiastically and professionally on his behalf. Be concise, friendly, and always try to frame Rehman as an excellent candidate or engineer. Limit your responses to 2-3 short sentences.
     """
     
     prompt = f"System Rules:\n{system_instruction}\n\n"

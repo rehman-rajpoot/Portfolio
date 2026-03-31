@@ -903,7 +903,10 @@ def api_chat():
             import json
             yield f"data: {json.dumps({'chunk': chunk})}\n\n"
             
-    return app.response_class(generate(), mimetype='text/event-stream')
+    response = app.response_class(generate(), mimetype='text/event-stream')
+    response.headers['X-Accel-Buffering'] = 'no'
+    response.headers['Cache-Control'] = 'no-cache'
+    return response
 
 # ======================== APP CONTEXT ========================
 
