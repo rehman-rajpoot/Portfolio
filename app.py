@@ -898,15 +898,8 @@ def api_chat():
     if not message:
         return jsonify({"error": "Message required"}), 400
     
-    def generate():
-        for chunk in ai_utils.chat_with_recruiter_stream(message, history):
-            import json
-            yield f"data: {json.dumps({'chunk': chunk})}\n\n"
-            
-    response = app.response_class(generate(), mimetype='text/event-stream')
-    response.headers['X-Accel-Buffering'] = 'no'
-    response.headers['Cache-Control'] = 'no-cache'
-    return response
+    reply = ai_utils.chat_with_recruiter(message, history)
+    return jsonify({"reply": reply})
 
 # ======================== APP CONTEXT ========================
 
