@@ -321,6 +321,89 @@
             msgBox.scrollTop = msgBox.scrollHeight;
         }
     </script>
+    <style>
+        .cookie-banner {
+            position: fixed;
+            bottom: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(99, 102, 241, 0.2);
+            z-index: 9999;
+            transition: bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .cookie-banner.show { bottom: 24px; }
+        .cookie-text {
+            color: #cbd5e1;
+            font-size: 0.9rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .cookie-text a {
+            color: #818cf8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .cookie-text a:hover { text-decoration: underline; }
+        .cookie-btn {
+            background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .cookie-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+        @media (max-width: 600px) {
+            .cookie-banner {
+                flex-direction: column;
+                bottom: -200px;
+                padding: 1rem;
+                gap: 1rem;
+                text-align: center;
+            }
+            .cookie-btn { width: 100%; }
+        }
+    </style>
+
+    <div id="cookieBanner" class="cookie-banner">
+        <p class="cookie-text">
+            <i class="fas fa-cookie-bite" style="color:#d97706; margin-right:5px;"></i>
+            We use strictly necessary cookies and analytics to enhance your experience. 
+            By continuing, you agree to our <a href="{{ url_for('privacy') }}">Privacy Policy</a>.
+        </p>
+        <button id="acceptCookies" class="cookie-btn">Agree</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('cookieConsent')) {
+                setTimeout(() => {
+                    document.getElementById('cookieBanner').classList.add('show');
+                }, 1000);
+            }
+            document.getElementById('acceptCookies').addEventListener('click', function() {
+                localStorage.setItem('cookieConsent', 'true');
+                document.getElementById('cookieBanner').classList.remove('show');
+            });
+        });
+    </script>
 </body>
 
 </html>

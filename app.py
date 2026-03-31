@@ -195,17 +195,24 @@ def get_skills_by_category():
         app.logger.error(f"Error in get_skills: {e}")
         return []
 
+import hashlib
+
+def get_hashed_ip(ip):
+    if not ip: return 'unknown'
+    # Pseudo-anonymize the IP with a one-way daily salt hash
+    today_salt = datetime.utcnow().strftime('%Y-%m-%d')
+    return hashlib.sha256((ip + today_salt + "portfolio").encode('utf-8')).hexdigest()[:16]
+
 @app.before_request
 def track_visitor():
     try:
         if request.path == '/' and not (current_user and current_user.is_authenticated):
-            ip = request.remote_addr
+            hashed_ip = get_hashed_ip(request.remote_addr)
             today = datetime.utcnow().date()
-            # Try to see if this IP visited today
-            # Cast timestamp to date by checking if its day matches today
-            v = Visitor.query.filter(Visitor.ip_address == ip).order_by(Visitor.timestamp.desc()).first()
+            # Try to see if this anonymized IP visited today
+            v = Visitor.query.filter(Visitor.ip_address == hashed_ip).order_by(Visitor.timestamp.desc()).first()
             if not v or v.timestamp.date() != today:
-                new_visit = Visitor(ip_address=ip, user_agent=request.user_agent.string)
+                new_visit = Visitor(ip_address=hashed_ip, user_agent=request.user_agent.string)
                 db.session.add(new_visit)
                 db.session.commit()
     except Exception as e:
@@ -248,13 +255,13 @@ def contact():
         # 1. AI Message Triage
         triage_data = ai_utils.triage_contact_message(name, email, subject, body)
 
-        # 2. Save to database
+        # 2. Save anonymized data to database
         contact_msg = ContactMessage(
             name=name,
             email=email,
             subject=subject,
             message=body,
-            ip_address=request.remote_addr,
+            ip_address=get_hashed_ip(request.remote_addr),
             ai_category=triage_data.get('category', 'UNCLASSIFIED'),
             ai_draft=triage_data.get('draft', '')
         )
@@ -270,6 +277,10 @@ def contact():
         return jsonify({'status': 'success', 'message': 'Message received! I\'ll get back to you soon.'})
 
     return render_template('contact.html')
+
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html')
 
 @app.route('/images/<path:filename>')
 def serve_image(filename):

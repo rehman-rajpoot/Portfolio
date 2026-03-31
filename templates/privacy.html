@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Privacy Policy - Rehman Portfolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .privacy-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 8rem 2rem 4rem 2rem;
+        color: #1F2937;
+    }
+    .privacy-container h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #4F46E5;
+        margin-bottom: 2rem;
+    }
+    .privacy-container h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        color: #111827;
+        border-bottom: 2px solid #E5E7EB;
+        padding-bottom: 0.5rem;
+    }
+    .privacy-container p, .privacy-container li {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #4B5563;
+        margin-bottom: 1rem;
+    }
+    .privacy-container ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+    .highlight-box {
+        background: #F3F4F6;
+        border-left: 4px solid #4F46E5;
+        padding: 1.5rem;
+        border-radius: 0 8px 8px 0;
+        margin: 2rem 0;
+    }
+    .highlight-box.secure {
+        background: #ECFDF5;
+        border-color: #10B981;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="privacy-container">
+    <h1>Privacy Policy</h1>
+    
+    <div class="highlight-box secure">
+        <p style="margin:0; color:#065F46;"><strong><i class="fas fa-shield-alt"></i> Our Promise:</strong> Visiting this profile is purely safe. No personal data is fetched from your device without your consent. Your IP Address is permanently hidden from the Admin and all third-party platforms. It is immediately converted into an anonymized cryptographic string, guaranteeing no one can track your personal computer.</p>
+    </div>
+
+    <p>Last Updated: Today</p>
+
+    <h2>1. Information We Collect</h2>
+    <p>We believe in minimal data collection. We only collect information that you explicitly provide to us, or information strictly necessary to ensure the website is functioning correctly.</p>
+    <ul>
+        <li><strong>Contact Form Data:</strong> If you use our contact form, we collect the name, email address, and message subject you provide to facilitate a response.</li>
+        <li><strong>Anonymized Traffic Data:</strong> We use an internal mechanism to count unique page visits. Your IP address is never stored. Before interacting with our database, your IP is automatically run through a one-way cryptographic SHA-256 algorithm using a rotating daily salt. The Admin is mathematically incapable of seeing your real IP address.</li>
+    </ul>
+
+    <h2>2. Use of Google Analytics & Cookies</h2>
+    <p>We use Google Analytics to monitor general website traffic trends (such as determining which blog posts or portfolio projects are the most popular). Google Analytics uses "cookies" (small text files placed on your computer) to collect standard internet log information and visitor behavior information in an anonymous form.</p>
+    <p>You can choose to accept or decline cookies using the consent banner at the bottom of the screen. If you decline, your visit will not be tracked by our analytics software or associated with your identity.</p>
+
+    <h2>3. Artificial Intelligence Processing</h2>
+    <p>This portfolio utilizes the Google Gemini Large Language Model API to process incoming contact form submissions.</p>
+    <ul>
+        <li>When you send a message, the contents of the message are temporarily sent to the AI strictly for the purpose of categorizing the email (e.g., Job Opportunity vs. Spam).</li>
+        <li>Your contact data is <strong>never</strong> used to train external AI models. The information is strictly handled in memory during triage before being securely routed to the internal Dashboard.</li>
+    </ul>
+
+    <h2>4. External Links</h2>
+    <p>This website may contain links to external sites (e.g., GitHub, LinkedIn, or external project deployments). If you click on a third-party link, you will be directed to that third party's site. We strongly advise you to review the Privacy Policy of every site you visit.</p>
+
+    <h2>5. Contact Us</h2>
+    <p>If you have any questions or concerns about this Privacy Policy, your data, or our security protocols, please feel free to reach out via the <a href="{{ url_for('contact') }}" style="color:#4F46E5; font-weight:600;">Contact Form</a>.</p>
+</div>
+{% endblock %}
