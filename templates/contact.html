@@ -112,13 +112,17 @@
 <script>
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             subject: document.getElementById('subject').value,
             message: document.getElementById('message').value
         };
+
+        const submitBtn = document.querySelector('.btn-submit');
+        const originalHtml = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Sending...';
 
         try {
             const response = await fetch('/contact', {
@@ -148,6 +152,9 @@
             messageDiv.textContent = '✗ Error sending message. Please try again.';
             messageDiv.className = 'form-message error';
             messageDiv.style.display = 'block';
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHtml;
         }
     });
 </script>
